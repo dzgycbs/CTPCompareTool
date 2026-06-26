@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{f4987886-021a-4a85-9f73-9854aeeb1be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{65a9c8fc-5962-4185-8c84-e50faa54dcf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{2cbdbbd0-6e31-4ceb-9ece-2999e10a966f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ctp">
+      <UniqueIdentifier>{76c647f3-4060-48c9-99a0-37afd96088ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{1c27b798-159f-4b21-b29f-6de3ddd8c002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ctp\include">
+      <UniqueIdentifier>{f60291da-a554-4595-873c-ad143da7d24e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ctp\lib">
+      <UniqueIdentifier>{adf6f2b7-de4f-4f5f-9251-b2d71ee682cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ctp\dll">
+      <UniqueIdentifier>{ba4f4a85-0f15-436f-8d44-2b165df9defc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{8009de4c-b4a6-4ebe-9bbf-550454791e5a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainWindow.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MdSpiEx.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TickMatcher.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Statistics.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TickStruct.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MainWindow.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MdSpiEx.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TickMatcher.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Statistics.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TickStruct.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="ctp\include\ThostFtdcMdApi.h">
+      <Filter>ctp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="ctp\include\ThostFtdcUserApiDataType.h">
+      <Filter>ctp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="ctp\include\ThostFtdcUserApiStruct.h">
+      <Filter>ctp\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Version.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Common.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Application.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CTPCompare.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ctp\lib\thostmduserapi_se.lib">
+      <Filter>ctp\lib</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ctp\dll\thostmduserapi_se.dll">
+      <Filter>ctp\dll</Filter>
+    </None>
+    <None Include="config\config.ini">
+      <Filter>config</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="log\README.txt">
+      <Filter>log</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
