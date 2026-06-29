@@ -6,7 +6,7 @@ public:
 
     bool Init();
 
-    void Release();
+    //void Release();
 
 private:
 
