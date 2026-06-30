@@ -101,6 +101,9 @@
     <ClInclude Include="include\TickKeyBuilder.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\StatisticsSnapshot.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CTPCompare.rc">
