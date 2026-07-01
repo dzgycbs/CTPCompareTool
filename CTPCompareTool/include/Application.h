@@ -26,6 +26,8 @@ public:
 
     void Stop();
 
+    void StartTest();
+
 private:
 
     HINSTANCE m_hInstance = nullptr;

@@ -1,4 +1,6 @@
-#include "Application.h"
+ï»¿#include "Application.h"
+#include "FakeMarketDataGenerator.h"
+#include "FakeMarketDataEngine.h"
 
 Application::Application()
 {
@@ -14,7 +16,7 @@ bool Application::Initialize(HINSTANCE hInstance)
     m_hInstance = hInstance;
 
     //
-    // ´´½¨Ö÷´°¿Ú
+    // åˆ›å»ºä¸»çª—å£
     //
     if (!m_mainWindow.Create(m_hInstance))
     {
@@ -27,6 +29,8 @@ bool Application::Initialize(HINSTANCE hInstance)
 int Application::Run(int nCmdShow)
 {
     m_mainWindow.Show(nCmdShow);
+
+    StartTest();
 
     MSG msg = {};
 
@@ -42,16 +46,32 @@ int Application::Run(int nCmdShow)
 bool Application::Start()
 {
     //
-    // v0.3 ¿ªÊ¼ÊµÏÖ
+    // v0.3 å¼€å§‹å®ç°
     //
+
+
+
     return true;
 }
 
 void Application::Stop()
 {
     //
-    // v0.3 ¿ªÊ¼ÊµÏÖ
+    // v0.3 å¼€å§‹å®ç°
     //
+}
+
+void Application::StartTest()
+{
+    ExperimentConfig cfg;
+    cfg.seed = 12345;
+
+    TickMatcher matcher;
+    MdSpiEx spi(matcher);
+
+    FakeMarketDataEngine engine(cfg, spi);
+
+    engine.Run(10);  // â­å”¯ä¸€é©±åŠ¨æº
 }
 
 void Application::Shutdown()

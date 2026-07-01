@@ -73,12 +73,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);./include/;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);./include/;./ctp/include/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);./include/;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);./include/;./ctp/include/</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -148,10 +148,16 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
     <ClInclude Include="ctp\include\ThostFtdcUserApiStruct.h" />
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Common.h" />
+    <ClInclude Include="include\ExperimentConfig.h" />
+    <ClInclude Include="include\FakeMarketDataEngine.h" />
+    <ClInclude Include="include\FakeMarketDataGenerator.h" />
     <ClInclude Include="include\MainWindow.h" />
     <ClInclude Include="include\MdSpiEx.h" />
+    <ClInclude Include="include\RandomEngine.h" />
     <ClInclude Include="include\Statistics.h" />
     <ClInclude Include="include\StatisticsSnapshot.h" />
+    <ClInclude Include="include\TickContext.h" />
+    <ClInclude Include="include\TickConverter.h" />
     <ClInclude Include="include\TickKeyBuilder.h" />
     <ClInclude Include="include\TickMatcher.h" />
     <ClInclude Include="include\TickStruct.h" />
@@ -164,10 +170,13 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\FakeMarketDataEngine.cpp" />
+    <ClCompile Include="src\FakeMarketDataGenerator.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\MdSpiEx.cpp" />
     <ClCompile Include="src\Statistics.cpp" />
+    <ClCompile Include="src\TickConverter.cpp" />
     <ClCompile Include="src\TickKeyBuilder.cpp" />
     <ClCompile Include="src\TickMatcher.cpp" />
     <ClCompile Include="src\TickStruct.cpp" />

@@ -57,6 +57,15 @@
     <ClCompile Include="src\TickKeyBuilder.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\TickConverter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FakeMarketDataGenerator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FakeMarketDataEngine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -102,6 +111,22 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\StatisticsSnapshot.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TickConverter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FakeMarketDataGenerator.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TickContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ExperimentConfig.h" />
+    <ClInclude Include="include\RandomEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FakeMarketDataEngine.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

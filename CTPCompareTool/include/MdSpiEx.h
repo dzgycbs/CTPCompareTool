@@ -1,13 +1,21 @@
 #pragma once
-#include "Common.h"
+
+#include "TickMatcher.h"
+#include "TickConverter.h"
+
+//======================================================
+// MdSpiEx
+//======================================================
+
 class MdSpiEx
 {
 public:
 
-    bool Init();
+    MdSpiEx(TickMatcher& matcher);
 
-    //void Release();
+    void OnRtnDepthMarketData(const CThostFtdcDepthMarketDataField* p);
 
 private:
 
+    TickMatcher& m_matcher;
 };

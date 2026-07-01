@@ -1,7 +1,7 @@
 #include "Statistics.h"
 #include <cstdlib>   // std::llabs
 #include <algorithm>
-
+#include <iostream>
 
 Statistics::Statistics()
 {
@@ -21,6 +21,7 @@ StatisticsSnapshot Statistics::GetSnapshot() const
 {
     return m_snapshot;
 }
+
 
 void Statistics::OnTickMatched(
     const Tick& left,

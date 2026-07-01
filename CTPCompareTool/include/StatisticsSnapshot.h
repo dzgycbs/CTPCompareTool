@@ -11,24 +11,18 @@
 
 struct StatisticsSnapshot
 {
-    // 已成功配对数量
-    uint64_t matchedCount = 0;
+    uint64_t matchedCount;
+    uint64_t leftWinCount;
+    uint64_t rightWinCount;
+    uint64_t drawCount;
+    uint64_t minLatencyUs;
+    uint64_t maxLatencyUs;
+    double avgLatencyUs;
+};
 
-    // Left线路领先次数
-    uint64_t leftWinCount = 0;
-
-    // Right线路领先次数
-    uint64_t rightWinCount = 0;
-
-    // 两条线路同时到达次数
-    uint64_t drawCount = 0;
-
-    // 最小延迟(us)
-    uint64_t minLatencyUs = 0;
-
-    // 最大延迟(us)
-    uint64_t maxLatencyUs = 0;
-
-    // 平均延迟(us)
-    double avgLatencyUs = 0.0;
+struct LatencyPoint
+{
+    uint64_t timeUs;
+    uint64_t leftUs;
+    uint64_t rightUs;
 };
