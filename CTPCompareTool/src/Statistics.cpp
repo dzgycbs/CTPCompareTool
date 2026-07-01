@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iostream>
 
+Statistics g_stats;
+
 Statistics::Statistics()
 {
     Reset();
@@ -27,6 +29,15 @@ void Statistics::OnTickMatched(
     const Tick& left,
     const Tick& right)
 {
+   /* int64_t leftLatency = left.recvTimeUs;
+    int64_t rightLatency = right.recvTimeUs;
+    if (leftLatency < rightLatency)
+        m_snapshot.leftWinCount++;
+    else if (rightLatency < leftLatency)
+        m_snapshot.rightWinCount++;
+    else
+        m_snapshot.drawCount++;*/
+
     int64_t delta =
         static_cast<int64_t>(left.recvTimeUs) -
         static_cast<int64_t>(right.recvTimeUs);

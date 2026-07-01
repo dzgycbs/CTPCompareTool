@@ -67,11 +67,12 @@ void Application::StartTest()
     cfg.seed = 12345;
 
     TickMatcher matcher;
+    matcher.SetListener(&g_stats);
     MdSpiEx spi(matcher);
 
     FakeMarketDataEngine engine(cfg, spi);
 
-    engine.Run(10);  // ⭐唯一驱动源
+    engine.Run(100);  // ⭐唯一驱动源
 }
 
 void Application::Shutdown()

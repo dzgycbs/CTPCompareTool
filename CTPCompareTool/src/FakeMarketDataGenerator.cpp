@@ -1,47 +1,78 @@
-#include "FakeMarketDataGenerator.h"
-#include "MdSpiEx.h"
+ï»¿#include "FakeMarketDataGenerator.h"
 
-#include <chrono>
-#include <thread>
-#include <random>
-
-static int64_t NowUs()
-{
-    using namespace std::chrono;
-    return duration_cast<microseconds>(
-        system_clock::now().time_since_epoch()
-    ).count();
-}
-
-static double RandomPrice(double base)
-{
-    static std::default_random_engine eng((unsigned)time(nullptr));
-    static std::uniform_real_distribution<double> dist(-0.2, 0.2);
-
-    return base + dist(eng);
-}
-
-FakeMarketDataGenerator::FakeMarketDataGenerator()
+FakeMarketDataGenerator::FakeMarketDataGenerator(
+    const ExperimentConfig& cfg,
+    MdSpiEx& spi)
+    : m_cfg(cfg)
+    , m_spi(spi)
+    , m_rng(cfg.seed)
+    , m_priceJitter(-0.01, 0.01)
 {
 }
 
-void FakeMarketDataGenerator::Generate(MdSpiEx& spi)
+// =========================
+// åŸºç¡€Tickæ¨¡æ¿
+// =========================
+Tick FakeMarketDataGenerator::MakeBaseTick()
 {
-    // Ä£ÄâÒ»±ÊĞĞÇé
-    CThostFtdcDepthMarketDataField md = {};
+    Tick t;
+    t.instrumentID = "IF0001";
+    t.lastPrice = 3000.0;
+    t.volume = 100;
+    return t;
+}
 
-    strcpy_s(md.InstrumentID, "IF0001");
-    md.LastPrice = 3000.0;
+// =========================
+// å¯¹å¤–å…¥å£ï¼ˆå”¯ä¸€ï¼‰
+// =========================
+void FakeMarketDataGenerator::Run(int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        GenerateOne();
+    }
+}
 
-    // ===== ×óÏßÂ· =====
-    md.LastPrice = RandomPrice(3000.0);
-    spi.OnRtnDepthMarketData(&md);
+// =========================
+// å•æ¬¡ç”Ÿæˆï¼ˆæ ¸å¿ƒé€»è¾‘ï¼‰
+// =========================
+void FakeMarketDataGenerator::GenerateOne()
+{
+    Tick base = MakeBaseTick();
 
-    // Ä£ÄâÑÓ³Ù£¨¹Ø¼ü£¡£©
-    std::this_thread::sleep_for(std::chrono::microseconds(30));
+    // =========================
+    // LEFT LINE
+    // =========================
+    {
+        Tick left = base;
+        left.line = LineType::Left;
 
-    // ===== ÓÒÏßÂ· =====
-    md.LastPrice = RandomPrice(3000.0);
-    spi.OnRtnDepthMarketData(&md);
+        left.lastPrice += m_priceJitter(m_rng);
 
+        int delay = m_cfg.leftDelayUs +
+            (m_rng() % m_cfg.jitterUs);
+
+        std::this_thread::sleep_for(
+            std::chrono::microseconds(delay));
+
+        m_spi.OnRtnDepthMarketData(&left);
+    }
+
+    // =========================
+    // RIGHT LINE
+    // =========================
+    {
+        Tick right = base;
+        right.line = LineType::Right;
+
+        right.lastPrice += m_priceJitter(m_rng);
+
+        int delay = m_cfg.rightDelayUs +
+            (m_rng() % m_cfg.jitterUs);
+
+        std::this_thread::sleep_for(
+            std::chrono::microseconds(delay));
+
+        m_spi.OnRtnDepthMarketData(&right);
+    }
 }

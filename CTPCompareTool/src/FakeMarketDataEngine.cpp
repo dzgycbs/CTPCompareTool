@@ -1,4 +1,4 @@
-#include "FakeMarketDataEngine.h"
+﻿#include "FakeMarketDataEngine.h"
 #include <thread>
 
 FakeMarketDataEngine::FakeMarketDataEngine(
@@ -10,49 +10,47 @@ FakeMarketDataEngine::FakeMarketDataEngine(
 {
 }
 
-static CThostFtdcDepthMarketDataField MakeBase()
+static Tick MakeBase()
 {
-    CThostFtdcDepthMarketDataField md = {};
-    strcpy_s(md.InstrumentID, "IF0001");
-    md.LastPrice = 3000.0;
-    md.Volume = 100;
-    return md;
+    Tick t;
+    t.instrumentID = "IF0001";
+    t.lastPrice = 3000.0;
+    t.volume = 100;
+    return t;
 }
 
 void FakeMarketDataEngine::Run(int count)
 {
     for (int i = 0; i < count; i++)
     {
-        auto md = MakeBase();
+        Tick base = MakeBase();
 
         // =========================
         // LEFT LINE
         // =========================
-        {
-            md.LastPrice += m_rand.RandDouble(-0.01, 0.01);
+        Tick left = base;
+        left.line = LineType::Left;
 
-            int delay = m_cfg.leftDelayUs
-                + m_rand.RandInt(0, m_cfg.jitterUs);
+        int leftDelay = m_cfg.leftDelayUs +
+            m_rand.RandInt(0, m_cfg.jitterUs);
 
-            std::this_thread::sleep_for(
-                std::chrono::microseconds(delay));
+        std::this_thread::sleep_for(
+            std::chrono::microseconds(leftDelay));
 
-            m_spi.OnRtnDepthMarketData(&md);
-        }
+        m_spi.OnRtnDepthMarketData(&left);
 
         // =========================
         // RIGHT LINE
         // =========================
-        {
-            md.LastPrice += m_rand.RandDouble(-0.01, 0.01);
+        Tick right = base;
+        right.line = LineType::Right;
 
-            int delay = m_cfg.rightDelayUs
-                + m_rand.RandInt(0, m_cfg.jitterUs);
+        int rightDelay = m_cfg.rightDelayUs +
+            m_rand.RandInt(0, m_cfg.jitterUs);
 
-            std::this_thread::sleep_for(
-                std::chrono::microseconds(delay));
+        std::this_thread::sleep_for(
+            std::chrono::microseconds(rightDelay));
 
-            m_spi.OnRtnDepthMarketData(&md);
-        }
+        m_spi.OnRtnDepthMarketData(&right);
     }
 }

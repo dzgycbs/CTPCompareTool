@@ -1,21 +1,34 @@
-#pragma once
+ï»¿#pragma once
 
-#include "Common.h"
+#include <random>
+#include <thread>
+#include <chrono>
+
 #include "MdSpiEx.h"
+#include "TickStruct.h"
+#include "ExperimentConfig.h"
 
-//======================================================
-// FakeMarketDataGenerator
-//
-// ÓÃÓÚÄ£ÄâË«ÏßÂ·ĞĞÇéÊı¾İ
-// ²âÊÔ TickMatcher / Statistics
-//======================================================
-
+// =========================
+// Fakeè¡Œæƒ…ç”Ÿæˆå™¨
+// =========================
 class FakeMarketDataGenerator
 {
 public:
+    FakeMarketDataGenerator(const ExperimentConfig& cfg, MdSpiEx& spi);
 
-    FakeMarketDataGenerator();
+    // å¯¹å¤–å”¯ä¸€å…¥å£ï¼ˆæ”¶å£ï¼ï¼‰
+    void Run(int count);
 
-    // Éú³ÉÒ»×é¡°×ó/ÓÒ¡±ĞĞÇé
-    void Generate(MdSpiEx& spi);
+private:
+    // å•æ¬¡ç”Ÿæˆï¼ˆå†…éƒ¨ç”¨ï¼‰
+    void GenerateOne();
+
+    Tick MakeBaseTick();
+
+private:
+    ExperimentConfig m_cfg;
+    MdSpiEx& m_spi;
+
+    std::mt19937 m_rng;
+    std::uniform_real_distribution<double> m_priceJitter;
 };

@@ -1,4 +1,6 @@
 #include "MainWindow.h"
+#include "StatisticsSnapshot.h"
+#include "Statistics.h"
 
 MainWindow::MainWindow()
 {
@@ -238,6 +240,9 @@ void MainWindow::CreateStatusBar()
         SB_SETTEXT,
         0,
         (LPARAM)L"Ready");
+
+    int parts[] = { 120, 380, -1 };
+    SendMessage(m_ui.hStatusBar, SB_SETPARTS, 3, (LPARAM)parts);
 }
 
 void MainWindow::CreateEventList()
@@ -408,4 +413,37 @@ void MainWindow::UpdateControls()
         SB_SETTEXT,
         0,
         (LPARAM)text);
+
+
+    StatisticsSnapshot snap = g_stats.GetSnapshot();
+
+    wchar_t statStr[128]{};
+
+    swprintf_s(
+        statStr,
+        L"Matched:%llu Left:%llu Right:%llu Draw:%llu",
+        snap.matchedCount,
+        snap.leftWinCount,
+        snap.rightWinCount,
+        snap.drawCount);
+
+    SendMessageW(
+        m_ui.hStatusBar,
+        SB_SETTEXT,
+        1,
+        (LPARAM)statStr);
+
+    wchar_t latStr[128]{};
+
+    swprintf_s(
+        latStr,
+        L"Avg:%.2fus",
+        snap.avgLatencyUs);
+
+    SendMessageW(
+        m_ui.hStatusBar,
+        SB_SETTEXT,
+        2,
+        (LPARAM)latStr);
+
 }

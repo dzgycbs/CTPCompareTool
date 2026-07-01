@@ -62,6 +62,7 @@ void TickMatcher::MatchRight(const Tick& tick)
     {
         if (m_listener != nullptr)
         {
+            //OutputDebugStringA("MATCH FOUND (RIGHT incoming)\n");
             m_listener->OnTickMatched(
                 it->second,
                 tick);

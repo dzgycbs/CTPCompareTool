@@ -39,3 +39,5 @@ private:
 
     bool m_hasData = false;
 };
+
+extern Statistics g_stats;

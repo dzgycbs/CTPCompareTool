@@ -13,7 +13,7 @@ public:
 
     MdSpiEx(TickMatcher& matcher);
 
-    void OnRtnDepthMarketData(const CThostFtdcDepthMarketDataField* p);
+    void OnRtnDepthMarketData(const Tick* tick);
 
 private:
 

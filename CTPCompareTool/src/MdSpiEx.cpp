@@ -6,33 +6,9 @@ MdSpiEx::MdSpiEx(TickMatcher& matcher)
 }
 
 void MdSpiEx::OnRtnDepthMarketData(
-    const CThostFtdcDepthMarketDataField* p)
+    const Tick* tick)
 {
-    if (!p) return;
+    if (!tick) return;
 
-    // =========================
-    // Left Line
-    // =========================
-    {
-        TickContext ctx;
-        ctx.md = p;
-        ctx.line = LineType::Left;
-
-        m_matcher.Push(
-            TickConverter::Convert(ctx)
-        );
-    }
-
-    // =========================
-    // Right Line
-    // =========================
-    {
-        TickContext ctx;
-        ctx.md = p;
-        ctx.line = LineType::Right;
-
-        m_matcher.Push(
-            TickConverter::Convert(ctx)
-        );
-    }
+    m_matcher.Push(*tick);
 }
