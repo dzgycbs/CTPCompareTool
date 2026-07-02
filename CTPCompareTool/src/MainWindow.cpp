@@ -52,6 +52,61 @@ void MainWindow::Show(int nCmdShow)
     UpdateWindow(m_hWnd);
 }
 
+void MainWindow::DrawLatencyChart(HDC hdc)
+{
+    RECT rcClient;
+    GetClientRect(m_hWnd, &rcClient);
+
+    RECT rcLine;
+    GetWindowRect(m_ui.hLeftGroup, &rcLine);
+    MapWindowPoints(HWND_DESKTOP, m_hWnd, (LPPOINT)&rcLine, 2);
+
+    RECT rcList;
+    GetWindowRect(m_ui.hEventList, &rcList);
+    MapWindowPoints(HWND_DESKTOP, m_hWnd, (LPPOINT)&rcList, 2);
+
+    RECT rcChart =
+    {
+        10,          // 左
+        rcLine.bottom + 10,     // 上（Left/Right 面板下面）
+        rcClient.right - 10,
+        rcList.top - 10         // 下（ListView 上面）
+    };
+
+    // 白色背景
+    FillRect(hdc, &rcChart, (HBRUSH)GetStockObject(WHITE_BRUSH));
+
+    // 黑色边框
+    Rectangle(
+        hdc,
+        rcChart.left,
+        rcChart.top,
+        rcChart.right,
+        rcChart.bottom);
+
+    // 标题
+    TextOutA(
+        hdc,
+        rcChart.left + 8,
+        rcChart.top + 6,
+        "Latency Chart",
+        13);
+
+
+    POINT pts[]
+    {
+        {rcChart.left + 30,rcChart.bottom - 60},
+        {rcChart.left + 60,rcChart.bottom - 80},
+        {rcChart.left + 90,rcChart.bottom - 50},
+        {rcChart.left + 120,rcChart.bottom - 30},
+        {rcChart.left + 150,rcChart.bottom - 40},
+        {rcChart.left + 180,rcChart.bottom - 70},
+        {rcChart.left + 210,rcChart.bottom - 25}
+    };
+
+    Polyline(hdc, pts, _countof(pts));
+}
+
 LRESULT CALLBACK MainWindow::WndProc(
     HWND hWnd,
     UINT message,
@@ -140,6 +195,18 @@ LRESULT MainWindow::HandleMessage(
     {
         LayoutControls();
         return 0;
+    }
+
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(m_hWnd, &ps);
+
+        DrawLatencyChart(hdc);
+
+        EndPaint(m_hWnd, &ps);
+        return 0;
+        //break;
     }
 
     case WM_TIMER:
@@ -374,9 +441,9 @@ void MainWindow::LayoutControls()
     MoveWindow(
         m_ui.hEventList,
         margin,
-        margin + topHeight + gap,
+        margin + topHeight + gap + 150,
         clientWidth - margin * 2,
-        clientHeight - topHeight - gap - margin,
+        clientHeight - topHeight - gap - margin - 150,
         TRUE);
 
     //

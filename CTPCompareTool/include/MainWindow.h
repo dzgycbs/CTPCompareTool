@@ -49,6 +49,8 @@ public:
         return m_hWnd;
     }
 
+    void DrawLatencyChart(HDC hdc);
+
 private:
 
     static LRESULT CALLBACK WndProc(
