@@ -24,20 +24,16 @@ StatisticsSnapshot Statistics::GetSnapshot() const
     return m_snapshot;
 }
 
+const std::deque<uint64_t>& Statistics::GetLatencyHistory() const
+{
+     return m_latencyHistory;
+}
+
 
 void Statistics::OnTickMatched(
     const Tick& left,
     const Tick& right)
 {
-   /* int64_t leftLatency = left.recvTimeUs;
-    int64_t rightLatency = right.recvTimeUs;
-    if (leftLatency < rightLatency)
-        m_snapshot.leftWinCount++;
-    else if (rightLatency < leftLatency)
-        m_snapshot.rightWinCount++;
-    else
-        m_snapshot.drawCount++;*/
-
     int64_t delta =
         static_cast<int64_t>(left.recvTimeUs) -
         static_cast<int64_t>(right.recvTimeUs);
@@ -93,4 +89,12 @@ void Statistics::OnTickMatched(
     m_snapshot.avgLatencyUs =
         static_cast<double>(m_totalLatencyUs) /
         static_cast<double>(m_snapshot.matchedCount);
+
+
+    m_latencyHistory.push_back(latencyUs);
+
+    if (m_latencyHistory.size() > MAX_HISTORY)
+    {
+        m_latencyHistory.pop_front();
+    }
 }

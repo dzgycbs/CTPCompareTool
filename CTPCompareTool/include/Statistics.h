@@ -3,6 +3,7 @@
 #include "Common.h"
 #include "TickMatcher.h"
 #include "StatisticsSnapshot.h"
+#include <deque>
 
 //=============================================================================
 // Statistics
@@ -23,6 +24,8 @@ public:
     // 获取统计快照
     StatisticsSnapshot GetSnapshot() const;
 
+    const std::deque<uint64_t>& GetLatencyHistory() const;
+
 public:
 
     // ITickMatchListener
@@ -38,6 +41,10 @@ private:
     uint64_t m_totalLatencyUs = 0;
 
     bool m_hasData = false;
+
+    std::deque<uint64_t> m_latencyHistory;
+
+    static constexpr size_t MAX_HISTORY = 500;
 };
 
 extern Statistics g_stats;
