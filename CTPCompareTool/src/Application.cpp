@@ -2,6 +2,7 @@
 #include "FakeMarketDataGenerator.h"
 #include "FakeMarketDataEngine.h"
 
+
 Application::Application()
 {
 }
@@ -23,6 +24,7 @@ bool Application::Initialize(HINSTANCE hInstance)
         return false;
     }
 
+    m_mainWindow.SetStatistics(&m_statistics);
     return true;
 }
 
@@ -30,7 +32,11 @@ int Application::Run(int nCmdShow)
 {
     m_mainWindow.Show(nCmdShow);
 
-    StartTest();
+    std::thread work = std::thread([this]()
+    {
+        StartTest();
+    });
+    work.detach();
 
     MSG msg = {};
 
@@ -72,7 +78,7 @@ void Application::StartTest()
 
     FakeMarketDataEngine engine(cfg, spi);
 
-    engine.Run(100);  // ⭐唯一驱动源
+    engine.Run(500);  // ⭐唯一驱动源
 }
 
 void Application::Shutdown()

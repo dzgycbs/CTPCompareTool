@@ -92,8 +92,7 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         "Latency Chart",
         13);
 
-
-    POINT pts[]
+    /*POINT pts[]
     {
         {rcChart.left + 30,rcChart.bottom - 60},
         {rcChart.left + 60,rcChart.bottom - 80},
@@ -103,8 +102,20 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         {rcChart.left + 180,rcChart.bottom - 70},
         {rcChart.left + 210,rcChart.bottom - 25}
     };
-
     Polyline(hdc, pts, _countof(pts));
+    */
+
+    std::vector<POINT> pts;
+    const auto& history =
+        m_statistics->GetLatencyHistory();
+    
+
+    
+}
+
+void MainWindow::SetStatistics(Statistics* statistics)
+{
+    m_statistics = statistics;
 }
 
 LRESULT CALLBACK MainWindow::WndProc(
@@ -206,7 +217,6 @@ LRESULT MainWindow::HandleMessage(
 
         EndPaint(m_hWnd, &ps);
         return 0;
-        //break;
     }
 
     case WM_TIMER:

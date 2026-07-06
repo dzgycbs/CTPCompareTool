@@ -2,6 +2,7 @@
 
 #include "Common.h"
 
+class Statistics;
 //=============================================================================
 // ¿Ø¼þID
 //=============================================================================
@@ -51,6 +52,8 @@ public:
 
     void DrawLatencyChart(HDC hdc);
 
+    void SetStatistics(Statistics* statistics);
+
 private:
 
     static LRESULT CALLBACK WndProc(
@@ -85,4 +88,6 @@ private:
     HWND m_hWnd = nullptr;
 
     UIControls m_ui;
+
+    Statistics* m_statistics = nullptr;
 };
