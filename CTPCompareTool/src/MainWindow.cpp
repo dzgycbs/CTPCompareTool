@@ -92,24 +92,60 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         "Latency Chart",
         13);
 
-    /*POINT pts[]
-    {
-        {rcChart.left + 30,rcChart.bottom - 60},
-        {rcChart.left + 60,rcChart.bottom - 80},
-        {rcChart.left + 90,rcChart.bottom - 50},
-        {rcChart.left + 120,rcChart.bottom - 30},
-        {rcChart.left + 150,rcChart.bottom - 40},
-        {rcChart.left + 180,rcChart.bottom - 70},
-        {rcChart.left + 210,rcChart.bottom - 25}
-    };
-    Polyline(hdc, pts, _countof(pts));
-    */
-
     std::vector<POINT> pts;
     const auto& history =
         m_statistics->GetLatencyHistory();
-    
+    if (history.size() < 2)
+    {
+        return;
+    }
 
+    const int left = rcChart.left + 15;
+    const int right = rcChart.right - 15;
+
+    const int top = rcChart.top + 20;
+    const int bottom = rcChart.bottom - 15;
+
+    const int width = right - left;
+    const int height = bottom - top;
+
+    uint64_t maxLatency = 1;
+
+    for (auto value : history)
+    {
+        if (value > maxLatency)
+        {
+            maxLatency = value;
+        }
+    }
+
+    double stepX =
+        static_cast<double>(width) /
+        static_cast<double>(history.size() - 1);
+
+    pts.reserve(history.size());
+
+    for (size_t i = 0; i < history.size(); ++i)
+    {
+        double ratio =
+            static_cast<double>(history[i]) /
+            static_cast<double>(maxLatency);
+
+        int x =
+            left +
+            static_cast<int>(i * stepX);
+
+        int y =
+            bottom -
+            static_cast<int>(ratio * height);
+
+        pts.push_back({ x, y });
+    }
+
+    Polyline(
+        hdc,
+        pts.data(),
+        static_cast<int>(pts.size()));
     
 }
 
@@ -492,7 +528,7 @@ void MainWindow::UpdateControls()
         (LPARAM)text);
 
 
-    StatisticsSnapshot snap = g_stats.GetSnapshot();
+    StatisticsSnapshot snap = m_statistics->GetSnapshot();
 
     wchar_t statStr[128]{};
 
@@ -522,5 +558,12 @@ void MainWindow::UpdateControls()
         SB_SETTEXT,
         2,
         (LPARAM)latStr);
+
+
+    InvalidateRect(
+        m_hWnd,
+        nullptr,
+        FALSE);
+
 
 }

@@ -47,4 +47,3 @@ private:
     static constexpr size_t MAX_HISTORY = 500;
 };
 
-extern Statistics g_stats;

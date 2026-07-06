@@ -37,6 +37,8 @@ void FakeMarketDataEngine::Run(int count)
         std::this_thread::sleep_for(
             std::chrono::microseconds(leftDelay));
 
+        left.recvTimeUs = GetCurrentTimeUs();
+
         m_spi.OnRtnDepthMarketData(&left);
 
         // =========================
@@ -50,6 +52,8 @@ void FakeMarketDataEngine::Run(int count)
 
         std::this_thread::sleep_for(
             std::chrono::microseconds(rightDelay));
+
+        right.recvTimeUs = GetCurrentTimeUs();
 
         m_spi.OnRtnDepthMarketData(&right);
     }

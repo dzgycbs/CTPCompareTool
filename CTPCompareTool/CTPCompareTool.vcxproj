@@ -150,7 +150,6 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
     <ClInclude Include="include\Common.h" />
     <ClInclude Include="include\ExperimentConfig.h" />
     <ClInclude Include="include\FakeMarketDataEngine.h" />
-    <ClInclude Include="include\FakeMarketDataGenerator.h" />
     <ClInclude Include="include\MainWindow.h" />
     <ClInclude Include="include\MdSpiEx.h" />
     <ClInclude Include="include\RandomEngine.h" />
@@ -171,7 +170,6 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\FakeMarketDataEngine.cpp" />
-    <ClCompile Include="src\FakeMarketDataGenerator.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\MdSpiEx.cpp" />

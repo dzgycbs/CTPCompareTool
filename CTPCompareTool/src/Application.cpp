@@ -1,5 +1,4 @@
 ﻿#include "Application.h"
-#include "FakeMarketDataGenerator.h"
 #include "FakeMarketDataEngine.h"
 
 
@@ -32,7 +31,7 @@ int Application::Run(int nCmdShow)
 {
     m_mainWindow.Show(nCmdShow);
 
-    std::thread work = std::thread([this]()
+   std::thread work = std::thread([this]()
     {
         StartTest();
     });
@@ -73,7 +72,7 @@ void Application::StartTest()
     cfg.seed = 12345;
 
     TickMatcher matcher;
-    matcher.SetListener(&g_stats);
+    matcher.SetListener(&m_statistics);
     MdSpiEx spi(matcher);
 
     FakeMarketDataEngine engine(cfg, spi);
