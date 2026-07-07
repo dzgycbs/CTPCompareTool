@@ -92,6 +92,7 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         "Latency Chart",
         13);
 
+   
     std::vector<POINT> pts;
     const auto& history =
         m_statistics->GetLatencyHistory();
@@ -100,13 +101,33 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         return;
     }
 
+    const auto& snapshot =
+        m_statistics->GetSnapshot();
+
+    char info[128];
+
+    sprintf_s(
+        info,
+        "AVG %.2fms   MAX %.2fms   Samples %zu",
+        snapshot.avgLatencyUs / 1000.0,
+        snapshot.maxLatencyUs / 1000.0,
+        history.size());
+
+
+    TextOutA(
+        hdc,
+        rcChart.left + 150,
+        rcChart.top + 6,
+        info,
+        static_cast<int>(strlen(info)));
+
     double avgLatency =
         m_statistics->GetSnapshot().avgLatencyUs;
 
     const int left = rcChart.left + 15;
     const int right = rcChart.right - 15;
 
-    const int top = rcChart.top + 20;
+    const int top = rcChart.top + 35;
     const int bottom = rcChart.bottom - 15;
 
     const int width = right - left;
@@ -188,19 +209,59 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         right,
         avgY);
 
-    char text[64];
+    //----------------------------------------------------
+    // Y Axis Grid
+    //----------------------------------------------------
 
-    sprintf_s(
-        text,
-        "AVG %.1fus",
-        avgLatency);
+    int gridCount = 4;
 
-    TextOutA(
-        hdc,
-        left + 5,
-        avgY - 30,
-        text,
-        static_cast<int>(strlen(text)));
+    for (int i = 0; i <= gridCount; i++)
+    {
+        double ratio =
+            static_cast<double>(i) /
+            static_cast<double>(gridCount);
+
+
+        int y =
+            bottom -
+            static_cast<int>(ratio * height);
+
+
+        // 横向辅助线
+        MoveToEx(
+            hdc,
+            left,
+            y,
+            nullptr);
+
+        LineTo(
+            hdc,
+            right,
+            y);
+
+
+        // Y轴数值
+        double valueMs =
+            ratio *
+            static_cast<double>(maxLatency)
+            / 1000.0;
+
+
+        char text[64];
+
+        sprintf_s(
+            text,
+            "%.1fms",
+            valueMs);
+
+
+        TextOutA(
+            hdc,
+            rcChart.left + 5,
+            y - 8,
+            text,
+            (int)strlen(text));
+    }
 }
 
 void MainWindow::SetStatistics(Statistics* statistics)
