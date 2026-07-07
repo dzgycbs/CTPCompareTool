@@ -1,15 +1,6 @@
 ﻿#include "TickConverter.h"
 #include <chrono>
 
-static int64_t NowUs()
-{
-    using namespace std::chrono;
-
-    return duration_cast<microseconds>(
-        system_clock::now().time_since_epoch()
-    ).count();
-}
-
 Tick TickConverter::Convert(const TickContext& ctx)
 {
     Tick tick;
@@ -23,7 +14,7 @@ Tick TickConverter::Convert(const TickContext& ctx)
     tick.turnover = md->Turnover;
 
     // ⭐关键统一点
-    tick.recvTimeUs = NowUs();
+    tick.recvTimeUs = GetCurrentTimeUs();
     tick.line = ctx.line;
 
     return tick;

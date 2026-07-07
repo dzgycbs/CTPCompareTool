@@ -119,6 +119,17 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         }
     }
 
+    if (maxLatency == 0)
+    {
+        return;
+    }
+
+    // 增加20%顶部空间
+    maxLatency =
+        static_cast<uint64_t>(
+            maxLatency * 1.2);
+
+
     double stepX =
         static_cast<double>(width) /
         static_cast<double>(history.size() - 1);
@@ -145,8 +156,28 @@ void MainWindow::DrawLatencyChart(HDC hdc)
     Polyline(
         hdc,
         pts.data(),
-        static_cast<int>(pts.size()));
+        static_cast<int>(pts.size())
+    );
+
     
+    double avg =
+        m_statistics->GetSnapshot().avgLatencyUs;
+
+    int avgY =
+        bottom -
+        static_cast<int>(
+            avg / maxLatency * height);
+
+    MoveToEx(
+        hdc,
+        left,
+        avgY,
+        nullptr);
+
+    LineTo(
+        hdc,
+        right,
+        avgY);
 }
 
 void MainWindow::SetStatistics(Statistics* statistics)
