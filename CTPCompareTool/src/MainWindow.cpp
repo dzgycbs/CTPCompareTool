@@ -100,6 +100,9 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         return;
     }
 
+    double avgLatency =
+        m_statistics->GetSnapshot().avgLatencyUs;
+
     const int left = rcChart.left + 15;
     const int right = rcChart.right - 15;
 
@@ -129,6 +132,14 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         static_cast<uint64_t>(
             maxLatency * 1.2);
 
+    double displayMax =
+        static_cast<double>(maxLatency) * 1.2;
+
+    if (avgLatency > displayMax)
+    {
+        displayMax = avgLatency * 1.2;
+    }
+
 
     double stepX =
         static_cast<double>(width) /
@@ -140,7 +151,7 @@ void MainWindow::DrawLatencyChart(HDC hdc)
     {
         double ratio =
             static_cast<double>(history[i]) /
-            static_cast<double>(maxLatency);
+            displayMax;
 
         int x =
             left +
@@ -159,14 +170,12 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         static_cast<int>(pts.size())
     );
 
-    
-    double avg =
-        m_statistics->GetSnapshot().avgLatencyUs;
-
     int avgY =
         bottom -
         static_cast<int>(
-            avg / maxLatency * height);
+            (avgLatency / displayMax) * height
+            );
+
 
     MoveToEx(
         hdc,
@@ -178,6 +187,20 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         hdc,
         right,
         avgY);
+
+    char text[64];
+
+    sprintf_s(
+        text,
+        "AVG %.1fus",
+        avgLatency);
+
+    TextOutA(
+        hdc,
+        left + 5,
+        avgY - 30,
+        text,
+        static_cast<int>(strlen(text)));
 }
 
 void MainWindow::SetStatistics(Statistics* statistics)
