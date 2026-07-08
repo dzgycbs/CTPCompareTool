@@ -104,12 +104,15 @@ void MainWindow::DrawLatencyChart(HDC hdc)
     const auto& snapshot =
         m_statistics->GetSnapshot();
 
-    char info[128];
+    char info[256];
 
     sprintf_s(
         info,
-        "AVG %.2fms   MAX %.2fms   Samples %zu",
+        "AVG %.2fms  P50 %.2fms  P95 %.2fms  P99 %.2fms  MAX %.2fms  Samples %zu",
         snapshot.avgLatencyUs / 1000.0,
+        snapshot.p50LatencyUs / 1000.0,
+        snapshot.p95LatencyUs / 1000.0,
+        snapshot.p99LatencyUs / 1000.0,
         snapshot.maxLatencyUs / 1000.0,
         history.size());
 
@@ -665,8 +668,8 @@ void MainWindow::UpdateControls()
 
     swprintf_s(
         latStr,
-        L"Avg:%.2fus",
-        snap.avgLatencyUs);
+        L"Avg:%.2fms",
+        snap.avgLatencyUs / 1000.0);
 
     SendMessageW(
         m_ui.hStatusBar,

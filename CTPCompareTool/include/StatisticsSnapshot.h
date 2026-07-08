@@ -18,6 +18,10 @@ struct StatisticsSnapshot
     uint64_t minLatencyUs;
     uint64_t maxLatencyUs;
     double avgLatencyUs;
+    // v0.8.0
+    double p50LatencyUs;
+    double p95LatencyUs;
+    double p99LatencyUs;
 };
 
 struct LatencyPoint

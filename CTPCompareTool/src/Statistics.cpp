@@ -28,6 +28,48 @@ const std::deque<uint64_t>& Statistics::GetLatencyHistory() const
      return m_latencyHistory;
 }
 
+void Statistics::UpdatePercentile()
+{
+    if (m_latencyHistory.empty())
+        return;
+
+
+    std::vector<uint64_t> data(
+        m_latencyHistory.begin(),
+        m_latencyHistory.end());
+
+
+    std::sort(
+        data.begin(),
+        data.end());
+
+
+    auto getValue =
+        [&](double ratio)
+        {
+            size_t index =
+                static_cast<size_t>(
+                    ratio * (data.size() - 1));
+
+            return data[index];
+        };
+
+
+    m_snapshot.p50LatencyUs =
+        static_cast<double>(
+            getValue(0.50));
+
+
+    m_snapshot.p95LatencyUs =
+        static_cast<double>(
+           getValue(0.95));
+
+
+    m_snapshot.p99LatencyUs =
+        static_cast<double>(
+           getValue(0.99));
+}
+
 
 void Statistics::OnTickMatched(
     const Tick& left,
@@ -107,4 +149,6 @@ void Statistics::OnTickMatched(
     {
         m_latencyHistory.pop_front();
     }
+
+    UpdatePercentile();
 }

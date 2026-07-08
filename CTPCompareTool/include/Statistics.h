@@ -26,6 +26,8 @@ public:
 
     const std::deque<uint64_t>& GetLatencyHistory() const;
 
+    void UpdatePercentile();
+
 public:
 
     // ITickMatchListener
