@@ -108,7 +108,7 @@ void MainWindow::DrawLatencyChart(HDC hdc)
 
     sprintf_s(
         info,
-        "AVG %.2fms  P50 %.2fms  P95 %.2fms  P99 %.2fms  MAX %.2fms  Samples %zu",
+        "AVG %.2fms  P50 %.2fms  P95 %.2fms P99 %.2fms  MAX %.2fms  Samples %zu",
         snapshot.avgLatencyUs / 1000.0,
         snapshot.p50LatencyUs / 1000.0,
         snapshot.p95LatencyUs / 1000.0,
@@ -124,13 +124,29 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         info,
         static_cast<int>(strlen(info)));
 
+    char info2[1256];
+
+    sprintf_s(
+        info2,
+        "LEFT %.1f%%    RIGHT %.1f%%    DRAW %.1f%%",
+        snapshot.leftWinRate * 100,
+        snapshot.rightWinRate * 100,
+        snapshot.drawRate * 100);
+
+    TextOutA(
+        hdc,
+        rcChart.left + 150,
+        rcChart.top + 26,
+        info2,
+        static_cast<int>(strlen(info2)));
+
     double avgLatency =
         m_statistics->GetSnapshot().avgLatencyUs;
 
     const int left = rcChart.left + 15;
     const int right = rcChart.right - 15;
 
-    const int top = rcChart.top + 35;
+    const int top = rcChart.top + 55;
     const int bottom = rcChart.bottom - 15;
 
     const int width = right - left;

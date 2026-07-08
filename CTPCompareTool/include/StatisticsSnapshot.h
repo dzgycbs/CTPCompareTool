@@ -12,13 +12,22 @@
 struct StatisticsSnapshot
 {
     uint64_t matchedCount;
+
     uint64_t leftWinCount;
     uint64_t rightWinCount;
     uint64_t drawCount;
+
+
+    double leftWinRate;
+    double rightWinRate;
+    double drawRate;
+
+
     uint64_t minLatencyUs;
     uint64_t maxLatencyUs;
+
     double avgLatencyUs;
-    // v0.8.0
+
     double p50LatencyUs;
     double p95LatencyUs;
     double p99LatencyUs;

@@ -150,5 +150,27 @@ void Statistics::OnTickMatched(
         m_latencyHistory.pop_front();
     }
 
+    //延迟分布
     UpdatePercentile();
+
+
+    //统计归属
+    if (m_snapshot.matchedCount > 0)
+    {
+        double total =
+            static_cast<double>(
+                m_snapshot.matchedCount);
+
+
+        m_snapshot.leftWinRate =
+            m_snapshot.leftWinCount / total;
+
+
+        m_snapshot.rightWinRate =
+            m_snapshot.rightWinCount / total;
+
+
+        m_snapshot.drawRate =
+            m_snapshot.drawCount / total;
+    }
 }
