@@ -31,6 +31,21 @@ struct StatisticsSnapshot
     double p50LatencyUs;
     double p95LatencyUs;
     double p99LatencyUs;
+
+    //================================
+    // Advantage Analysis
+    //================================
+
+    // 平均领先幅度
+    double avgAdvantageUs = 0;
+
+    // 最大领先幅度
+    uint64_t maxAdvantageUs = 0;
+
+
+    // 当前领先方连续次数
+    uint64_t leftStreak = 0;
+    uint64_t rightStreak = 0;
 };
 
 struct LatencyPoint

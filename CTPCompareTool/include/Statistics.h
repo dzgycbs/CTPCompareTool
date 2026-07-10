@@ -47,5 +47,13 @@ private:
     std::deque<uint64_t> m_latencyHistory;
 
     static constexpr size_t MAX_HISTORY = 500;
+
+    uint64_t m_totalAdvantageUs = 0;
+
+    uint64_t m_maxAdvantageUs = 0;
+
+    uint64_t m_leftStreak = 0;
+
+    uint64_t m_rightStreak = 0;
 };
 

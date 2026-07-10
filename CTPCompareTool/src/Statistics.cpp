@@ -102,14 +102,51 @@ void Statistics::OnTickMatched(
     if (delta < 0)
     {
         ++m_snapshot.leftWinCount;
+
+
+        uint64_t advantage =
+            static_cast<uint64_t>(std::llabs(delta));
+
+
+        m_totalAdvantageUs += advantage;
+
+
+        if (advantage > m_maxAdvantageUs)
+        {
+            m_maxAdvantageUs = advantage;
+        }
+
+
+        ++m_leftStreak;
+        m_rightStreak = 0;
     }
     else if (delta > 0)
     {
         ++m_snapshot.rightWinCount;
+
+
+        uint64_t advantage =
+            static_cast<uint64_t>(std::llabs(delta));
+
+
+        m_totalAdvantageUs += advantage;
+
+
+        if (advantage > m_maxAdvantageUs)
+        {
+            m_maxAdvantageUs = advantage;
+        }
+
+
+        ++m_rightStreak;
+        m_leftStreak = 0;
     }
     else
     {
         ++m_snapshot.drawCount;
+
+        m_leftStreak = 0;
+        m_rightStreak = 0;
     }
 
     //----------------------------------------------------
@@ -173,4 +210,21 @@ void Statistics::OnTickMatched(
         m_snapshot.drawRate =
             m_snapshot.drawCount / total;
     }
+
+    m_snapshot.avgAdvantageUs =
+        static_cast<double>(m_totalAdvantageUs)
+        /
+        static_cast<double>(m_snapshot.matchedCount);
+
+
+    m_snapshot.maxAdvantageUs =
+        m_maxAdvantageUs;
+
+
+    m_snapshot.leftStreak =
+        m_leftStreak;
+
+
+    m_snapshot.rightStreak =
+        m_rightStreak;
 }

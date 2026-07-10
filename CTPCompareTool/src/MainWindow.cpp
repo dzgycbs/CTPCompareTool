@@ -104,6 +104,13 @@ void MainWindow::DrawLatencyChart(HDC hdc)
     const auto& snapshot =
         m_statistics->GetSnapshot();
 
+    printf(
+        "Adv avg=%f max=%llu L=%llu R=%llu\n",
+        snapshot.avgAdvantageUs,
+        snapshot.maxAdvantageUs,
+        snapshot.leftStreak,
+        snapshot.rightStreak);
+
     char info[256];
 
     sprintf_s(
@@ -140,13 +147,37 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         info2,
         static_cast<int>(strlen(info2)));
 
+
+    char info3[128];
+
+    double advAvgMs =
+        snapshot.avgAdvantageUs / 1000.0;
+
+    double advMaxMs =
+        snapshot.maxAdvantageUs / 1000.0;
+
+    sprintf_s(
+        info3,
+        "ADV %.2fms  MAX ADV %.2fms",
+        advAvgMs,
+        advMaxMs);
+
+    TextOutA(
+        hdc,
+        rcChart.left + 150,
+        rcChart.top + 45,      // 根据你现在 Header 的实际高度微调
+        info3,
+        static_cast<int>(strlen(info3)));
+
+
+
     double avgLatency =
         m_statistics->GetSnapshot().avgLatencyUs;
 
     const int left = rcChart.left + 15;
     const int right = rcChart.right - 15;
 
-    const int top = rcChart.top + 55;
+    const int top = rcChart.top + 65;
     const int bottom = rcChart.bottom - 15;
 
     const int width = right - left;
@@ -698,6 +729,8 @@ void MainWindow::UpdateControls()
         m_hWnd,
         nullptr,
         FALSE);
+
+
 
 
 }
