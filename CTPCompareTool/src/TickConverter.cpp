@@ -1,21 +1,27 @@
 ﻿#include "TickConverter.h"
 #include <chrono>
 
-Tick TickConverter::Convert(const TickContext& ctx)
+Tick TickConverter::Convert(const CThostFtdcDepthMarketDataField& src)
 {
     Tick tick;
 
-    const auto* md = ctx.md;
-    if (!md) return tick;
+    tick.instrumentID = src.InstrumentID;
+    tick.lastPrice = src.LastPrice;
+    tick.volume = src.Volume;
+    tick.turnover = src.Turnover;
 
-    tick.instrumentID = md->InstrumentID;
-    tick.lastPrice = md->LastPrice;
-    tick.volume = md->Volume;
-    tick.turnover = md->Turnover;
+    /*tick.exchangeID
+    tick.bidPrice1
+    tick.askPrice1
+    tick.bidVolume1
+    tick.askVolume1
+    tick.updateTime
+    tick.updateMillisec
+    tick.tradingDay
+    tick.actionDay*/
 
-    // ⭐关键统一点
+    //// ⭐关键统一点
     tick.recvTimeUs = GetCurrentTimeUs();
-    tick.line = ctx.line;
 
     return tick;
 }

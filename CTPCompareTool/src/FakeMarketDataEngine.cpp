@@ -63,13 +63,13 @@ void FakeMarketDataEngine::Run(int count)
 
         if (left.recvTimeUs <= right.recvTimeUs)
         {
-            m_spi.OnRtnDepthMarketData(&left);
-            m_spi.OnRtnDepthMarketData(&right);
+            //m_spi.OnRtnDepthMarketData(&left);
+            //m_spi.OnRtnDepthMarketData(&right);
         }
         else
         {
-            m_spi.OnRtnDepthMarketData(&right);
-            m_spi.OnRtnDepthMarketData(&left);
+            //m_spi.OnRtnDepthMarketData(&right);
+            //m_spi.OnRtnDepthMarketData(&left);
         }
 
         // 控制Tick产生速度，避免CPU空转

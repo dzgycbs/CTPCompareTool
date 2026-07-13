@@ -11,5 +11,5 @@ class TickConverter
 {
 public:
 
-    static Tick Convert(const TickContext& ctx);
+    static Tick Convert(const CThostFtdcDepthMarketDataField& src);
 };

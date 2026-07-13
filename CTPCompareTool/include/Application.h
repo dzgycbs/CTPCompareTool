@@ -6,6 +6,7 @@
 #include "Statistics.h"
 #include "TickMatcher.h"
 #include "MdSpiEx.h"
+#include "ThostFtdcMdApi.h"
 
 class Application
 {
@@ -26,8 +27,6 @@ public:
 
     void Stop();
 
-    void StartTest();
-
 private:
 
     HINSTANCE m_hInstance = nullptr;
@@ -38,7 +37,15 @@ private:
 
     TickMatcher    m_tickMatcher;
 
-    std::unique_ptr<MdSpiEx> m_leftMd;
+    // Left
+    CThostFtdcMdApi* m_leftApi = nullptr;
+    MdSpiEx          m_leftSpi;
 
-    std::unique_ptr<MdSpiEx> m_rightMd;
+    // Right
+    CThostFtdcMdApi* m_rightApi = nullptr;
+    MdSpiEx          m_rightSpi;
+
+    std::string      m_leftFront;
+    std::string      m_rightFront;
+
 };

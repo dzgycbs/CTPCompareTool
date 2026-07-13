@@ -1,9 +1,32 @@
 ﻿#include "Application.h"
-#include "FakeMarketDataEngine.h"
+#include <direct.h>
 
+constexpr const char* LEFT_FLOW = "LeftFlow";
+constexpr const char* RIGHT_FLOW = "RightFlow";
 
-Application::Application()
+static std::string CreateFlowDir(const char* name)
 {
+    char cwd[512];
+    _getcwd(cwd, sizeof(cwd));
+
+    std::string path =
+        std::string(cwd) + "\\" + name + "\\";
+
+    if (_mkdir(path.c_str()) == 0)
+    {
+        OutputDebugStringA("Create Flow Folder\n");
+    }
+
+    return path;
+}
+
+
+Application::Application():
+    m_leftSpi(LineType::Left, m_tickMatcher),
+    m_rightSpi(LineType::Right, m_tickMatcher)
+{
+    m_leftFront =  "tcp://116.236.239.140:42213";
+    m_rightFront = "tcp://101.226.253.65:41313";
 }
 
 Application::~Application()
@@ -31,11 +54,11 @@ int Application::Run(int nCmdShow)
 {
     m_mainWindow.Show(nCmdShow);
 
-   std::thread work = std::thread([this]()
+    if (!Start())
     {
-        StartTest();
-    });
-    work.detach();
+        return -1;
+    }
+
 
     MSG msg = {};
 
@@ -50,11 +73,36 @@ int Application::Run(int nCmdShow)
 
 bool Application::Start()
 {
-    //
-    // v0.3 开始实现
-    //
+    auto leftFlow = CreateFlowDir(LEFT_FLOW);
+    auto rightFlow = CreateFlowDir(RIGHT_FLOW);
 
+    m_leftApi =
+        CThostFtdcMdApi::CreateFtdcMdApi(leftFlow.c_str());
 
+    m_rightApi =
+        CThostFtdcMdApi::CreateFtdcMdApi(rightFlow.c_str());
+
+    if (!m_leftApi || !m_rightApi)
+    {
+        return false;
+    }
+
+    m_leftSpi.SetApi(m_leftApi);
+    m_rightSpi.SetApi(m_rightApi);
+
+    m_leftApi->RegisterSpi(&m_leftSpi);
+
+    m_rightApi->RegisterSpi(&m_rightSpi);
+
+    m_leftApi->RegisterFront(
+        const_cast<char*>(m_leftFront.c_str()));
+
+    m_rightApi->RegisterFront(
+        const_cast<char*>(m_rightFront.c_str()));
+
+    m_leftApi->Init();
+
+    m_rightApi->Init();
 
     return true;
 }
@@ -66,25 +114,20 @@ void Application::Stop()
     //
 }
 
-void Application::StartTest()
-{
-    ExperimentConfig cfg;
-    cfg.seed = 12345;
-
-    TickMatcher matcher;
-    matcher.SetListener(&m_statistics);
-    MdSpiEx spi(matcher);
-
-    FakeMarketDataEngine engine(cfg, spi);
-
-    engine.Run(500);  // ⭐唯一驱动源
-}
 
 void Application::Shutdown()
 {
     Stop();
 
-    m_leftMd.reset();
+    if (m_leftApi)
+    {
+        m_leftApi->Release();
+        m_leftApi = nullptr;
+    }
 
-    m_rightMd.reset();
+    if (m_rightApi)
+    {
+        m_rightApi->Release();
+        m_rightApi = nullptr;
+    }
 }
