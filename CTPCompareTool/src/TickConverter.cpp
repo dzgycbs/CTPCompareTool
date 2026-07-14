@@ -1,5 +1,6 @@
 ﻿#include "TickConverter.h"
 #include <chrono>
+#include "Utils.h"
 
 Tick TickConverter::Convert(const CThostFtdcDepthMarketDataField& src)
 {

@@ -1,5 +1,6 @@
 ﻿#include "FakeMarketDataEngine.h"
 #include <thread>
+#include "Utils.h"
 
 FakeMarketDataEngine::FakeMarketDataEngine(
     const ExperimentConfig& cfg,

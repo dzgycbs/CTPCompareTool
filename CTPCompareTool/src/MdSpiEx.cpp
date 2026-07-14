@@ -1,4 +1,5 @@
 #include "MdSpiEx.h"
+#include "Utils.h"
 
 MdSpiEx::MdSpiEx(
     LineType line,
@@ -19,6 +20,7 @@ void MdSpiEx::OnFrontConnected()
     {
         OutputDebugStringA("[RIGHT] Front Connected\n");
     }
+    Login();
 }
 
 void MdSpiEx::OnFrontDisconnected(int)
@@ -34,11 +36,34 @@ void MdSpiEx::OnFrontDisconnected(int)
 }
 
 void MdSpiEx::OnRspUserLogin(
-    CThostFtdcRspUserLoginField*,
-    CThostFtdcRspInfoField*,
-    int,
-    bool)
+    CThostFtdcRspUserLoginField* pRspUserLogin,
+    CThostFtdcRspInfoField* pRspInfo,
+    int nRequestID,
+    bool bIsLast)
 {
+    std::ostringstream oss;
+    if (m_line == LineType::Left)
+    {
+        oss << "[LEFT]";
+
+    }
+    else
+    {
+        oss << "[RIGHT]";
+    }
+
+    if (pRspInfo &&
+        pRspInfo->ErrorID != 0)
+    {
+        oss << " Login Error[" << pRspInfo->ErrorID << "] " << pRspInfo->ErrorMsg;
+    }
+    else
+    {
+        m_loginSuccess = true;
+        oss << " Login Success TradingDay[" << pRspUserLogin->TradingDay << "] ";
+    }
+    oss << "\n";
+    DebugPrint(oss.str());
 }
 
 void MdSpiEx::OnRtnDepthMarketData(
@@ -57,4 +82,22 @@ void MdSpiEx::OnRtnDepthMarketData(
 void MdSpiEx::SetApi(CThostFtdcMdApi* api)
 {
     m_api = api;
+}
+
+void MdSpiEx::SetLoginInfo(const std::string& broker, const std::string& user, const std::string& password)
+{
+    m_brokerID = broker;
+    m_userID = user;
+    m_password = password;
+}
+
+void MdSpiEx::Login()
+{
+    CThostFtdcReqUserLoginField req = {};
+
+    strcpy(req.BrokerID, m_brokerID.c_str());
+    strcpy(req.UserID, m_userID.c_str());
+    strcpy(req.Password, m_password.c_str());
+
+    m_api->ReqUserLogin(&req, m_requestID++);
 }

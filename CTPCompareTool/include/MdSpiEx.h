@@ -31,6 +31,13 @@ public:
 public:
     void SetApi(CThostFtdcMdApi* api);
 
+    void SetLoginInfo(
+        const std::string& broker,
+        const std::string& user,
+        const std::string& password);
+
+    void Login();
+
 private:
 
     LineType      m_line;
@@ -40,4 +47,12 @@ private:
     TickConverter m_converter;
 
     CThostFtdcMdApi* m_api = nullptr;
+
+private:
+    bool m_loginSuccess = false;
+    std::string m_brokerID;
+    std::string m_userID;
+    std::string m_password;
+
+    int m_requestID = 1;
 };

@@ -79,15 +79,3 @@ using namespace std::chrono_literals;
 #include "Version.h"
 
 
-//=============================================================================
-// Base Function
-//=============================================================================
-
-inline uint64_t GetCurrentTimeUs()
-{
-    using namespace std::chrono;
-
-    return duration_cast<microseconds>(
-        steady_clock::now().time_since_epoch()
-    ).count();
-}

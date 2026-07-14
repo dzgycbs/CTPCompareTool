@@ -1,24 +1,9 @@
 ﻿#include "Application.h"
-#include <direct.h>
+#include "Utils.h"
 
 constexpr const char* LEFT_FLOW = "LeftFlow";
 constexpr const char* RIGHT_FLOW = "RightFlow";
 
-static std::string CreateFlowDir(const char* name)
-{
-    char cwd[512];
-    _getcwd(cwd, sizeof(cwd));
-
-    std::string path =
-        std::string(cwd) + "\\" + name + "\\";
-
-    if (_mkdir(path.c_str()) == 0)
-    {
-        OutputDebugStringA("Create Flow Folder\n");
-    }
-
-    return path;
-}
 
 
 Application::Application():
@@ -99,6 +84,10 @@ bool Application::Start()
 
     m_rightApi->RegisterFront(
         const_cast<char*>(m_rightFront.c_str()));
+
+    m_leftSpi.SetLoginInfo("9999","8020","123456");
+
+    m_rightSpi.SetLoginInfo("9999", "8020", "123456");
 
     m_leftApi->Init();
 
