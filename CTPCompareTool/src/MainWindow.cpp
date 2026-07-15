@@ -669,11 +669,6 @@ void MainWindow::LayoutControls()
 
 void MainWindow::UpdateControls()
 {
-    //
-    // 第一版先刷新状态栏时间
-    // 后面这里会改成 Statistics Snapshot
-    //
-
     SYSTEMTIME st{};
     GetLocalTime(&st);
 

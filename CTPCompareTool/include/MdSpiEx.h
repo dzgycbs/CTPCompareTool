@@ -25,6 +25,12 @@ public:
         int nRequestID,
         bool bIsLast) override;
 
+    virtual void OnRspSubMarketData(
+        CThostFtdcSpecificInstrumentField* pSpecificInstrument,
+        CThostFtdcRspInfoField* pRspInfo,
+        int nRequestID,
+        bool bIsLast) override;
+
     virtual void OnRtnDepthMarketData(
         CThostFtdcDepthMarketDataField* pData) override;
 
@@ -37,6 +43,9 @@ public:
         const std::string& password);
 
     void Login();
+
+    void SetInstrument(
+        const std::string& instrument);
 
 private:
 
@@ -53,6 +62,9 @@ private:
     std::string m_brokerID;
     std::string m_userID;
     std::string m_password;
+    std::string m_instrument;
 
     int m_requestID = 1;
+
+    void Subscribe();
 };

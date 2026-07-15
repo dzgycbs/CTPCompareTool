@@ -59,10 +59,35 @@ void MdSpiEx::OnRspUserLogin(
     }
     else
     {
+        oss << " Login Success TradingDay=" << pRspUserLogin->TradingDay;
         m_loginSuccess = true;
-        oss << " Login Success TradingDay[" << pRspUserLogin->TradingDay << "] ";
+        Subscribe();
     }
     oss << "\n";
+    DebugPrint(oss.str());
+}
+
+void MdSpiEx::OnRspSubMarketData(CThostFtdcSpecificInstrumentField* pSpecificInstrument, CThostFtdcRspInfoField* pRspInfo, int nRequestID, bool bIsLast)
+{
+    std::ostringstream oss;
+    if (m_line == LineType::Left)
+    {
+        oss << "[LEFT]";
+
+    }
+    else
+    {
+        oss << "[RIGHT]";
+    }
+
+    if (!pRspInfo || pRspInfo->ErrorID == 0)
+    {
+        oss << " Subscribe Success : " << std::string(pSpecificInstrument->InstrumentID) << "\n";
+    }
+    else
+    {
+        oss << " Subscribe Failed ErrorID=" << pRspInfo->ErrorID << "\n";
+    }
     DebugPrint(oss.str());
 }
 
@@ -100,4 +125,21 @@ void MdSpiEx::Login()
     strcpy(req.Password, m_password.c_str());
 
     m_api->ReqUserLogin(&req, m_requestID++);
+}
+
+void MdSpiEx::SetInstrument(const std::string& instrument)
+{
+    m_instrument = instrument;
+}
+
+void MdSpiEx::Subscribe()
+{
+    const char* instruments[] =
+    {
+        m_instrument.c_str()
+    };
+
+    m_api->SubscribeMarketData(
+        const_cast<char**>(instruments),
+        1);
 }

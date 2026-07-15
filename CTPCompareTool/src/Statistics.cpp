@@ -82,17 +82,6 @@ void Statistics::OnTickMatched(
     uint64_t latencyUs =
         static_cast<uint64_t>(std::llabs(delta));
 
-    /*char buf[256];
-
-    sprintf_s(
-        buf,
-        "left=%llu right=%llu delta=%lld\n",
-        left.recvTimeUs,
-        right.recvTimeUs,
-        delta);
-
-    OutputDebugStringA(buf);*/
-
     //----------------------------------------------------
     // 基本统计
     //----------------------------------------------------

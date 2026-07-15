@@ -1,5 +1,28 @@
 # Changelog
 
+Version : v0.9.1
+
+Mission
+──────────────────────────
+✔ Dual Login
+
+Completed
+──────────────────────────
+✔ Front Connected
+✔ ReqUserLogin
+✔ OnRspUserLogin
+✔ TradingDay Output
+✔ DebugPrint()
+✔ Utils Improvement
+
+Verification
+──────────────────────────
+✔ 0 Error
+✔ 0 Warning
+✔ LEFT Login Success
+✔ RIGHT Login Success
+
+
 #v0.9.0 —— Dual MdApi Foundation
 
 新增
