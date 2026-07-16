@@ -69,7 +69,7 @@ void MdSpiEx::OnRspUserLogin(
 
 void MdSpiEx::OnRspSubMarketData(CThostFtdcSpecificInstrumentField* pSpecificInstrument, CThostFtdcRspInfoField* pRspInfo, int nRequestID, bool bIsLast)
 {
-    std::ostringstream oss;
+    /*std::ostringstream oss;
     if (m_line == LineType::Left)
     {
         oss << "[LEFT]";
@@ -88,7 +88,7 @@ void MdSpiEx::OnRspSubMarketData(CThostFtdcSpecificInstrumentField* pSpecificIns
     {
         oss << " Subscribe Failed ErrorID=" << pRspInfo->ErrorID << "\n";
     }
-    DebugPrint(oss.str());
+    DebugPrint(oss.str());*/
 }
 
 void MdSpiEx::OnRtnDepthMarketData(
@@ -96,6 +96,22 @@ void MdSpiEx::OnRtnDepthMarketData(
 {
     if (!pData)
         return;
+
+    /*std::ostringstream oss;
+    if (m_line == LineType::Left)
+    {
+        oss << "[LEFT]";
+
+    }
+    else
+    {
+        oss << "[RIGHT]";
+    }
+
+    oss << std::string(pData->InstrumentID) << "LastPrice="<< pData->LastPrice <<"\n";
+
+    DebugPrint(oss.str());*/
+
 
     Tick tick = m_converter.Convert(*pData);
 

@@ -1,9 +1,9 @@
 #pragma once
-
 #include "ThostFtdcMdApi.h"
 
 #include "TickMatcher.h"
 #include "TickConverter.h"
+
 
 class MdSpiEx : public CThostFtdcMdSpi
 {

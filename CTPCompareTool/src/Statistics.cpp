@@ -23,20 +23,21 @@ StatisticsSnapshot Statistics::GetSnapshot() const
     return m_snapshot;
 }
 
-const std::deque<uint64_t>& Statistics::GetLatencyHistory() const
+const std::deque<uint64_t>& Statistics::LatencyChartData() const
 {
-     return m_latencyHistory;
+    std::lock_guard<std::mutex> lock(m_historyMutex);
+     return m_chartHistory;
 }
 
 void Statistics::UpdatePercentile()
 {
-    if (m_latencyHistory.empty())
+    if (m_statisticsHistory.empty())
         return;
 
 
     std::vector<uint64_t> data(
-        m_latencyHistory.begin(),
-        m_latencyHistory.end());
+        m_statisticsHistory.begin(),
+        m_statisticsHistory.end());
 
 
     std::sort(
@@ -69,6 +70,11 @@ void Statistics::UpdatePercentile()
         static_cast<double>(
            getValue(0.99));
 }
+
+//StatisticsReport Statistics::BuildReport() const
+//{
+//    return StatisticsReport();
+//}
 
 
 void Statistics::OnTickMatched(
@@ -168,12 +174,14 @@ void Statistics::OnTickMatched(
         static_cast<double>(m_totalLatencyUs) /
         static_cast<double>(m_snapshot.matchedCount);
 
+    m_statisticsHistory.push_back(latencyUs);
 
-    m_latencyHistory.push_back(latencyUs);
+    std::lock_guard<std::mutex> lock(m_historyMutex);
+    m_chartHistory.push_back(latencyUs);
 
-    if (m_latencyHistory.size() > MAX_HISTORY)
+    if (m_chartHistory.size() > MAX_CHART_HISTORY)
     {
-        m_latencyHistory.pop_front();
+        m_chartHistory.pop_front();
     }
 
     //ÑÓ³Ù·Ö²¼

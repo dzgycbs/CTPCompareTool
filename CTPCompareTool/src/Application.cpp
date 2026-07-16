@@ -23,6 +23,7 @@ bool Application::Initialize(HINSTANCE hInstance)
 {
     m_hInstance = hInstance;
 
+    m_tickMatcher.SetListener(&m_statistics);
     //
     // 创建主窗口
     //
@@ -32,6 +33,7 @@ bool Application::Initialize(HINSTANCE hInstance)
     }
 
     m_mainWindow.SetStatistics(&m_statistics);
+   
     return true;
 }
 
@@ -89,9 +91,9 @@ bool Application::Start()
 
     m_rightSpi.SetLoginInfo("9999", "8020", "123456");
 
-    m_leftSpi.SetInstrument("IF2609");
+    m_leftSpi.SetInstrument("rb2610");
 
-    m_rightSpi.SetInstrument("IF2609");
+    m_rightSpi.SetInstrument("rb2610");
 
     m_leftApi->Init();
 

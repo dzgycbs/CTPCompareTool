@@ -94,8 +94,8 @@ void MainWindow::DrawLatencyChart(HDC hdc)
 
    
     std::vector<POINT> pts;
-    const auto& history =
-        m_statistics->GetLatencyHistory();
+    std::deque<uint64_t> history =
+        m_statistics->LatencyChartData();
     if (history.size() < 2)
     {
         return;
@@ -170,7 +170,6 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         static_cast<int>(strlen(info3)));
 
 
-
     double avgLatency =
         m_statistics->GetSnapshot().avgLatencyUs;
 
@@ -183,6 +182,7 @@ void MainWindow::DrawLatencyChart(HDC hdc)
     const int width = right - left;
     const int height = bottom - top;
 
+   
     uint64_t maxLatency = 1;
 
     for (auto value : history)
@@ -293,7 +293,7 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         // YÖáÊýÖµ
         double valueMs =
             ratio *
-            static_cast<double>(maxLatency)
+            displayMax
             / 1000.0;
 
 
