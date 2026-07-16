@@ -91,7 +91,7 @@ bool Application::Start()
 
     m_rightSpi.SetLoginInfo("9999", "8020", "123456");
 
-    m_leftSpi.SetInstrument("rb2610");
+    m_leftSpi.SetInstrument("rb2610");//rb2610
 
     m_rightSpi.SetInstrument("rb2610");
 

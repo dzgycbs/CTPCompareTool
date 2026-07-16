@@ -2,6 +2,7 @@
 #include <cstdlib>   // std::llabs
 #include <algorithm>
 #include <iostream>
+#include "Utils.h"
 
 
 Statistics::Statistics()
@@ -20,13 +21,14 @@ void Statistics::Reset()
 
 StatisticsSnapshot Statistics::GetSnapshot() const
 {
+    std::lock_guard<std::mutex> lock(m_snapshotMutex);
     return m_snapshot;
 }
 
-const std::deque<uint64_t>& Statistics::LatencyChartData() const
+std::deque<uint64_t> Statistics::LatencyChartData() const
 {
     std::lock_guard<std::mutex> lock(m_historyMutex);
-     return m_chartHistory;
+    return m_chartHistory;
 }
 
 void Statistics::UpdatePercentile()
@@ -81,6 +83,8 @@ void Statistics::OnTickMatched(
     const Tick& left,
     const Tick& right)
 {
+    std::lock_guard<std::mutex> lock(m_statisticsMutex);
+    DebugPrint("Enter OnTickMatched\n");
     int64_t delta =
         static_cast<int64_t>(left.recvTimeUs) -
         static_cast<int64_t>(right.recvTimeUs);
@@ -176,7 +180,6 @@ void Statistics::OnTickMatched(
 
     m_statisticsHistory.push_back(latencyUs);
 
-    std::lock_guard<std::mutex> lock(m_historyMutex);
     m_chartHistory.push_back(latencyUs);
 
     if (m_chartHistory.size() > MAX_CHART_HISTORY)
@@ -224,4 +227,6 @@ void Statistics::OnTickMatched(
 
     m_snapshot.rightStreak =
         m_rightStreak;
+
+    DebugPrint("Leave OnTickMatched\n");
 }

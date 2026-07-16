@@ -24,7 +24,7 @@ public:
     // 获取统计快照
     StatisticsSnapshot GetSnapshot() const;
 
-    const std::deque<uint64_t>& LatencyChartData() const;
+    std::deque<uint64_t> LatencyChartData() const;
 
     void UpdatePercentile();
 
@@ -61,6 +61,8 @@ private:
 
     uint64_t m_rightStreak = 0;
 
+    mutable std::mutex m_snapshotMutex;
     mutable std::mutex m_historyMutex;
+    mutable std::mutex m_statisticsMutex;
 };
 

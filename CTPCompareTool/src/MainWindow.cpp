@@ -92,7 +92,6 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         "Latency Chart",
         13);
 
-   
     std::vector<POINT> pts;
     std::deque<uint64_t> history =
         m_statistics->LatencyChartData();
@@ -100,7 +99,7 @@ void MainWindow::DrawLatencyChart(HDC hdc)
     {
         return;
     }
-
+  
     const auto& snapshot =
         m_statistics->GetSnapshot();
 
@@ -168,7 +167,6 @@ void MainWindow::DrawLatencyChart(HDC hdc)
         rcChart.top + 45,      // 根据你现在 Header 的实际高度微调
         info3,
         static_cast<int>(strlen(info3)));
-
 
     double avgLatency =
         m_statistics->GetSnapshot().avgLatencyUs;

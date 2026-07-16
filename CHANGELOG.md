@@ -1,5 +1,29 @@
 # Changelog
 
+2026-07-16
+
+First real multi-thread race
+found after Dual MdApi.
+
+Reason:
+
+Statistics was originally designed
+under Fake single-thread environment.
+
+After Dual MdApi,
+OnTickMatched()
+was entered simultaneously by
+Left MdApi thread and Right MdApi thread.
+
+Solution:
+
+Statistics becomes a
+thread-safe object.
+
+Protect whole OnTickMatched()
+instead of protecting deque only.
+
+
 Version : v0.9.1
 
 Mission
