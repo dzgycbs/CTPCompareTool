@@ -84,7 +84,7 @@ void Statistics::OnTickMatched(
     const Tick& right)
 {
     std::lock_guard<std::mutex> lock(m_statisticsMutex);
-    DebugPrint("Enter OnTickMatched\n");
+    //DebugPrint("Enter OnTickMatched\n");
     int64_t delta =
         static_cast<int64_t>(left.recvTimeUs) -
         static_cast<int64_t>(right.recvTimeUs);
@@ -228,5 +228,5 @@ void Statistics::OnTickMatched(
     m_snapshot.rightStreak =
         m_rightStreak;
 
-    DebugPrint("Leave OnTickMatched\n");
+    //DebugPrint("Leave OnTickMatched\n");
 }

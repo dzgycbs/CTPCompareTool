@@ -114,14 +114,14 @@ void MainWindow::DrawLatencyChart(HDC hdc)
 
     sprintf_s(
         info,
-        "AVG %.2fms  P50 %.2fms  P95 %.2fms P99 %.2fms  MAX %.2fms  Samples %zu",
+        "AVG %.2fms  P50 %.2fms  P95 %.2fms P99 %.2fms  MAX %.2fms  Samples %llu (Display 1000)",
         snapshot.avgLatencyUs / 1000.0,
         snapshot.p50LatencyUs / 1000.0,
         snapshot.p95LatencyUs / 1000.0,
         snapshot.p99LatencyUs / 1000.0,
         snapshot.maxLatencyUs / 1000.0,
-        history.size());
-
+        snapshot.matchedCount);
+    
 
     TextOutA(
         hdc,
