@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.h"
+#include "StatisticsSnapshot.h"
 
 class Statistics;
 //=============================================================================
@@ -50,7 +51,15 @@ public:
         return m_hWnd;
     }
 
+    void DrawEmptyState(HDC hdc, RECT& rcChart);
     void DrawLatencyChart(HDC hdc);
+    void DrawInfoCard(HDC hdc, const RECT& rcChart, const StatisticsSnapshot& s, size_t displayCount);
+    void DrawGridAndLabels(HDC hdc, const RECT& rcChart,int left, int right,
+        int top, int bottom, double displayMax);
+    void DrawCurve(HDC hdc, int left, int right, int top, int bottom,
+        const std::deque<uint64_t>& history, double displayMax);
+    void DrawReferenceLines(HDC hdc, int left, int right, int top, int bottom,
+            const StatisticsSnapshot& s, double displayMax);
 
     void SetStatistics(Statistics* statistics);
 
@@ -70,6 +79,8 @@ private:
 private:
 
     bool RegisterWindowClass();
+
+    void CreateFonts();
 
     void CreateControls();
 
@@ -91,5 +102,24 @@ private:
 
     Statistics* m_statistics = nullptr;
 
+    HFONT m_hSmallFont;      // 小号字体（信息卡、标签）
 
+    HFONT m_hLargeFont;      // 大号字体（标题，可选）
+
+private:
+
+    POINT m_ptHover = { -1, -1 };        // 鼠标悬停位置（-1表示无悬停）
+
+    int m_hoverIndex = -1;              // 悬停对应的数据点索引
+
+    uint64_t m_hoverValue = 0;          // 悬停点的数值
+
+    bool m_bShowTooltip = false;        // 是否显示浮窗
+
+    // 辅助函数
+    RECT GetChartRect() const;
+
+    int GetHoverIndex(int mouseX, int mouseY) const;
+
+    void UpdateHoverState(int mouseX, int mouseY);
 };

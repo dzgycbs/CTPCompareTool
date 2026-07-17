@@ -3,7 +3,6 @@
 #include "Common.h"
 #include "TickMatcher.h"
 #include "StatisticsSnapshot.h"
-#include <deque>
 
 //=============================================================================
 // Statistics

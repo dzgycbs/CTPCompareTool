@@ -10,8 +10,11 @@ Application::Application():
     m_leftSpi(LineType::Left, m_tickMatcher),
     m_rightSpi(LineType::Right, m_tickMatcher)
 {
-    m_leftFront =  "tcp://116.236.239.140:42213";
-    m_rightFront = "tcp://101.226.253.65:41313";
+    //m_leftFront =  "tcp://116.236.239.140:42213";
+    //m_rightFront = "tcp://101.226.253.65:41313";
+
+    m_leftFront = "tcp://182.254.243.31:30011";
+    m_rightFront = "tcp://182.254.243.31:30012";//
 }
 
 Application::~Application()

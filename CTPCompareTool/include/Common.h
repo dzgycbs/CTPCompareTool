@@ -42,6 +42,8 @@
 
 #include <set>
 
+#include <deque>
+
 #include <memory>
 
 #include <mutex>
