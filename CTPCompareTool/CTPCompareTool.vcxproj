@@ -73,12 +73,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);./include/;./ctp/include/</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);./include/;./ctp/include/;./third_party/nlohmann/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);./include/;./ctp/include/</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);./include/;./ctp/include/;./third_party/nlohmann/</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -148,6 +148,7 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
     <ClInclude Include="ctp\include\ThostFtdcUserApiStruct.h" />
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Common.h" />
+    <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\ExperimentConfig.h" />
     <ClInclude Include="include\FakeMarketDataEngine.h" />
     <ClInclude Include="include\MainWindow.h" />
@@ -169,6 +170,7 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\FakeMarketDataEngine.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />

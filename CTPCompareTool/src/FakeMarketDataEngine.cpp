@@ -41,7 +41,7 @@ void FakeMarketDataEngine::Run(int count)
 
         left.recvTimeUs =
             startTime + leftDelay +
-            m_rand.RandInt(-100, 100);;
+            m_rand.RandInt(-100, 100);
 
         //-----------------------------------
         // RIGHT
@@ -56,7 +56,7 @@ void FakeMarketDataEngine::Run(int count)
 
         right.recvTimeUs =
             startTime + rightDelay +
-            m_rand.RandInt(-100, 100);;
+            m_rand.RandInt(-100, 100);
 
         //-----------------------------------
         // 按时间先后发送

@@ -7,6 +7,7 @@
 #include "TickMatcher.h"
 #include "MdSpiEx.h"
 #include "ThostFtdcMdApi.h"
+#include "Config.h"
 
 class Application
 {
@@ -47,5 +48,7 @@ private:
 
     std::string      m_leftFront;
     std::string      m_rightFront;
+
+    Config m_config;
 
 };

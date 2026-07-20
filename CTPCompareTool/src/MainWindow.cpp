@@ -236,11 +236,6 @@ void MainWindow::DrawLatencyChart(HDC hdc)
                 rcTooltip.bottom = relY - 12;
             }
 
-            // 红色调试块（确认浮窗位置）
-            HBRUSH hRed = CreateSolidBrush(RGB(255, 0, 0));
-            FillRect(hdcMem, &rcTooltip, hRed);
-            DeleteObject(hRed);
-
             // 浮窗背景（白色）
             HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255));
             FillRect(hdcMem, &rcTooltip, hBrush);
@@ -320,14 +315,14 @@ void MainWindow::DrawInfoCard(HDC hdc, const RECT& rcChart, const StatisticsSnap
     HFONT hOldFont = (HFONT)SelectObject(hdc, m_hSmallFont);
     // 列1: Latency
     char buf[64];
-    sprintf_s(buf, "AVG  %.2fms", s.avgLatencyUs / 1000.0);
-    TextOutA(hdc, col1, row2, buf, (int)strlen(buf));
     sprintf_s(buf, "P50  %.2fms", s.p50LatencyUs / 1000.0);
-    TextOutA(hdc, col1, row3, buf, (int)strlen(buf));
+    TextOutA(hdc, col1, row2, buf, (int)strlen(buf));
     sprintf_s(buf, "P95  %.2fms", s.p95LatencyUs / 1000.0);
-    TextOutA(hdc, col1, row4, buf, (int)strlen(buf));  // ← 加一行 P95
+    TextOutA(hdc, col1, row3, buf, (int)strlen(buf));  
+    sprintf_s(buf, "AVG  %.2fms", s.avgLatencyUs / 1000.0);
+    TextOutA(hdc, col1, row4, buf, (int)strlen(buf));
     sprintf_s(buf, "MAX  %.2fms", s.maxLatencyUs / 1000.0);
-    TextOutA(hdc, col1, row5, buf, (int)strlen(buf));  // ← 加一行 MAX
+    TextOutA(hdc, col1, row5, buf, (int)strlen(buf));  
 
     // 列2: Win Rate
     sprintf_s(buf, "LEFT  %.1f%%", s.leftWinRate * 100);
@@ -386,7 +381,7 @@ void MainWindow::DrawGridAndLabels(HDC hdc, const RECT& rcChart,
 }
 
 // ------------------------------------------------------------------------
-// 6. 数据曲线（绿 → 黄 → 红 动态变色）
+// 6. 数据曲线
 // ------------------------------------------------------------------------
 void MainWindow::DrawCurve(HDC hdc, int left, int right, int top, int bottom,
     const std::deque<uint64_t>& history, double displayMax)
