@@ -73,6 +73,20 @@ bool Config::Load(
     return true;
 }
 
+bool Config::Validate()
+{
+    if (m_left.front.empty())
+        return false;
+
+    if (m_right.front.empty())
+        return false;
+
+    if (m_instruments.empty())
+        return false;
+
+    return true;
+}
+
 const MdLineConfig& Config::Left() const
 {
     return m_left;

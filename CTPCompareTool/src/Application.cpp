@@ -1,10 +1,6 @@
 ﻿#include "Application.h"
 #include "Utils.h"
 
-constexpr const char* LEFT_FLOW = "LeftFlow";
-constexpr const char* RIGHT_FLOW = "RightFlow";
-
-
 
 Application::Application():
     m_leftSpi(LineType::Left, m_tickMatcher),
@@ -28,6 +24,14 @@ bool Application::Initialize(HINSTANCE hInstance)
 
         return false;
     }
+
+    if (m_config.Validate() == false)
+    {
+        DebugPrint(
+            "config Validate faild\n");
+
+        return false;
+     }
 
     m_hInstance = hInstance;
 
@@ -68,8 +72,8 @@ int Application::Run(int nCmdShow)
 
 bool Application::Start()
 {
-    auto leftFlow = CreateFlowDir(LEFT_FLOW);
-    auto rightFlow = CreateFlowDir(RIGHT_FLOW);
+    auto leftFlow = CreateFlowDir(m_config.Left().flowPath.c_str());
+    auto rightFlow = CreateFlowDir(m_config.Right().flowPath.c_str());
 
     m_leftApi =
         CThostFtdcMdApi::CreateFtdcMdApi(leftFlow.c_str());

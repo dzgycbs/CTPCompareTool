@@ -22,6 +22,7 @@ public:
 
     bool Load(const std::string& file);
 
+    bool Validate();
 
     const MdLineConfig& Left() const;
 
