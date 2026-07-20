@@ -10,11 +10,7 @@ Application::Application():
     m_leftSpi(LineType::Left, m_tickMatcher),
     m_rightSpi(LineType::Right, m_tickMatcher)
 {
-    m_leftFront =  "tcp://116.236.239.140:42213";
-    m_rightFront = "tcp://101.226.253.65:41313";
 
-    //m_leftFront = "tcp://182.254.243.31:30011";
-    //m_rightFront = "tcp://182.254.243.31:30012";//
 }
 
 Application::~Application()
@@ -86,6 +82,9 @@ bool Application::Start()
         return false;
     }
 
+    m_leftFront = m_config.Left().front;
+    m_rightFront = m_config.Right().front;
+
     m_leftSpi.SetApi(m_leftApi);
     m_rightSpi.SetApi(m_rightApi);
 
@@ -99,13 +98,13 @@ bool Application::Start()
     m_rightApi->RegisterFront(
         const_cast<char*>(m_rightFront.c_str()));
 
-    m_leftSpi.SetLoginInfo("9999","8020","123456");
+    m_leftSpi.SetLoginInfo(m_config.Left().brokerID, m_config.Left().userID, m_config.Left().password);
 
-    m_rightSpi.SetLoginInfo("9999", "8020", "123456");
+    m_rightSpi.SetLoginInfo(m_config.Right().brokerID, m_config.Right().userID, m_config.Right().password);
 
-    m_leftSpi.SetInstrument("rb2610");//rb2610
+    m_leftSpi.SetInstrument(m_config.Instruments().front());
 
-    m_rightSpi.SetInstrument("rb2610");
+    m_rightSpi.SetInstrument(m_config.Instruments().front());
 
     m_leftApi->Init();
 

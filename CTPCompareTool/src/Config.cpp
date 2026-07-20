@@ -72,3 +72,18 @@ bool Config::Load(
 
     return true;
 }
+
+const MdLineConfig& Config::Left() const
+{
+    return m_left;
+}
+
+const MdLineConfig& Config::Right() const
+{
+    return m_right;
+}
+
+const std::vector<std::string>& Config::Instruments() const
+{
+    return m_instruments;
+}

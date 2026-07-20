@@ -40,3 +40,4 @@ uint64_t GetCurrentTimeUs()
 void DebugPrint(const std::string& msg) {
     OutputDebugStringA(msg.c_str());
 }
+
