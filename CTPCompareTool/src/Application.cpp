@@ -31,7 +31,7 @@ bool Application::Initialize(HINSTANCE hInstance)
             "config Validate faild\n");
 
         return false;
-     }
+    }
 
     m_hInstance = hInstance;
 
@@ -72,6 +72,9 @@ int Application::Run(int nCmdShow)
 
 bool Application::Start()
 {
+    OnConnectionStateChanged(LineType::Left, ConnectionState::Idle);
+    OnConnectionStateChanged(LineType::Right, ConnectionState::Idle);
+
     auto leftFlow = CreateFlowDir(m_config.Left().flowPath.c_str());
     auto rightFlow = CreateFlowDir(m_config.Right().flowPath.c_str());
 
@@ -110,18 +113,41 @@ bool Application::Start()
 
     m_rightSpi.SetInstrument(m_config.Instruments().front());
 
+    m_leftSpi.SetConnectionListener(this);
+
+    m_rightSpi.SetConnectionListener(this);
+
     m_leftApi->Init();
 
     m_rightApi->Init();
+
+    OnConnectionStateChanged(LineType::Left, ConnectionState::Connecting);
+    OnConnectionStateChanged(LineType::Right, ConnectionState::Connecting);
 
     return true;
 }
 
 void Application::Stop()
 {
-    //
-    // v0.3 开始实现
-    //
+    OnConnectionStateChanged(LineType::Left, ConnectionState::Stopped);
+    OnConnectionStateChanged(LineType::Right, ConnectionState::Stopped);
+}
+
+void Application::OnConnectionStateChanged(
+    LineType line,
+    ConnectionState newState)
+{
+    ConnectionState& current =
+        (line == LineType::Left)
+        ? m_leftState
+        : m_rightState;
+
+    if (current == newState)
+        return;
+
+    DebugStateTransition(line,current,newState);
+
+    current = newState;
 }
 
 

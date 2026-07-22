@@ -3,6 +3,7 @@
 
 #include "TickMatcher.h"
 #include "TickConverter.h"
+#include "ConnectionState.h"
 
 
 class MdSpiEx : public CThostFtdcMdSpi
@@ -47,6 +48,10 @@ public:
     void SetInstrument(
         const std::string& instrument);
 
+    void SetConnectionListener(
+        IConnectionListener* listener);
+
+
 private:
 
     LineType      m_line;
@@ -67,4 +72,6 @@ private:
     int m_requestID = 1;
 
     void Subscribe();
+
+    IConnectionListener* m_listener = nullptr;
 };

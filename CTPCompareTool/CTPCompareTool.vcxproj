@@ -24,6 +24,7 @@
     <ProjectGuid>{9fea5bfd-d9e0-4621-ac0e-c8fe0c496324}</ProjectGuid>
     <RootNamespace>CTPCompareTool</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CTPCompare Framework</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -149,6 +150,7 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Common.h" />
     <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\ConnectionState.h" />
     <ClInclude Include="include\ExperimentConfig.h" />
     <ClInclude Include="include\FakeMarketDataEngine.h" />
     <ClInclude Include="include\MainWindow.h" />

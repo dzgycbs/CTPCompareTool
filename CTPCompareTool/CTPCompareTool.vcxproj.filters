@@ -129,6 +129,9 @@
     <ClInclude Include="include\Config.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\ConnectionState.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CTPCompare.rc">

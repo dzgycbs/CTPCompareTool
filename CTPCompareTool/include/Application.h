@@ -8,8 +8,9 @@
 #include "MdSpiEx.h"
 #include "ThostFtdcMdApi.h"
 #include "Config.h"
+#include "ConnectionState.h"
 
-class Application
+class Application :  public IConnectionListener
 {
 public:
 
@@ -27,6 +28,9 @@ public:
     bool Start();
 
     void Stop();
+
+public:
+    void OnConnectionStateChanged(LineType line, ConnectionState state);
 
 private:
 
@@ -50,5 +54,9 @@ private:
     std::string      m_rightFront;
 
     Config m_config;
+
+    ConnectionState m_leftState =  ConnectionState::Idle;
+
+    ConnectionState m_rightState =  ConnectionState::Idle;
 
 };

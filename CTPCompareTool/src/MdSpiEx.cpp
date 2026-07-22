@@ -12,27 +12,16 @@ MdSpiEx::MdSpiEx(
 
 void MdSpiEx::OnFrontConnected()
 {
-    if (m_line == LineType::Left)
-    {
-        OutputDebugStringA("[LEFT] Front Connected\n");
-    }
-    else
-    {
-        OutputDebugStringA("[RIGHT] Front Connected\n");
-    }
+    m_listener->OnConnectionStateChanged(m_line, ConnectionState::FrontConnected);
+
     Login();
+
+    m_listener->OnConnectionStateChanged(m_line, ConnectionState::Logining);
 }
 
 void MdSpiEx::OnFrontDisconnected(int)
 {
-    if (m_line == LineType::Left)
-    {
-        OutputDebugStringA("[LEFT] OnFrontDisconnected\n");
-    }
-    else
-    {
-        OutputDebugStringA("[RIGHT] OnFrontDisconnected\n");
-    }
+    m_listener->OnConnectionStateChanged(m_line, ConnectionState::Disconnected);
 }
 
 void MdSpiEx::OnRspUserLogin(
@@ -55,13 +44,15 @@ void MdSpiEx::OnRspUserLogin(
     if (pRspInfo &&
         pRspInfo->ErrorID != 0)
     {
-        oss << " Login Error[" << pRspInfo->ErrorID << "] " << pRspInfo->ErrorMsg;
+        oss << " [" << pRspInfo->ErrorID << "] " << pRspInfo->ErrorMsg;
     }
     else
     {
-        oss << " Login Success TradingDay=" << pRspUserLogin->TradingDay;
+        m_listener->OnConnectionStateChanged(m_line, ConnectionState::LoginSuccess);
+        oss << " TradingDay=" << pRspUserLogin->TradingDay;
         m_loginSuccess = true;
         Subscribe();
+        m_listener->OnConnectionStateChanged(m_line, ConnectionState::Subscribing);
     }
     oss << "\n";
     DebugPrint(oss.str());
@@ -69,26 +60,7 @@ void MdSpiEx::OnRspUserLogin(
 
 void MdSpiEx::OnRspSubMarketData(CThostFtdcSpecificInstrumentField* pSpecificInstrument, CThostFtdcRspInfoField* pRspInfo, int nRequestID, bool bIsLast)
 {
-    /*std::ostringstream oss;
-    if (m_line == LineType::Left)
-    {
-        oss << "[LEFT]";
-
-    }
-    else
-    {
-        oss << "[RIGHT]";
-    }
-
-    if (!pRspInfo || pRspInfo->ErrorID == 0)
-    {
-        oss << " Subscribe Success : " << std::string(pSpecificInstrument->InstrumentID) << "\n";
-    }
-    else
-    {
-        oss << " Subscribe Failed ErrorID=" << pRspInfo->ErrorID << "\n";
-    }
-    DebugPrint(oss.str());*/
+    m_listener->OnConnectionStateChanged(m_line, ConnectionState::Running);
 }
 
 void MdSpiEx::OnRtnDepthMarketData(
@@ -96,22 +68,6 @@ void MdSpiEx::OnRtnDepthMarketData(
 {
     if (!pData)
         return;
-
-    /*std::ostringstream oss;
-    if (m_line == LineType::Left)
-    {
-        oss << "[LEFT]";
-
-    }
-    else
-    {
-        oss << "[RIGHT]";
-    }
-
-    oss << std::string(pData->InstrumentID) << "LastPrice="<< pData->LastPrice <<"\n";
-
-    DebugPrint(oss.str());*/
-
 
     Tick tick = m_converter.Convert(*pData);
 
@@ -146,6 +102,11 @@ void MdSpiEx::Login()
 void MdSpiEx::SetInstrument(const std::string& instrument)
 {
     m_instrument = instrument;
+}
+
+void MdSpiEx::SetConnectionListener(IConnectionListener* listener)
+{
+    m_listener = listener;
 }
 
 void MdSpiEx::Subscribe()
