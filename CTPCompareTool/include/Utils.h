@@ -7,7 +7,7 @@
 
 #define STRCPY_SAFE(dest, src) CopyString(dest, src)
 
-std::string CreateFlowDir(const char* name);
+std::string EnsureDirectory(const char* name);
 
 uint64_t GetCurrentTimeUs();
 
@@ -20,5 +20,7 @@ void DebugStateTransition(
 
 const char* ToString(LineType line);
 const char* ToString(ConnectionState state);
+
+std::string GetTradingDay();
 
 

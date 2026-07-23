@@ -73,11 +73,14 @@ int Application::Run(int nCmdShow)
 
 bool Application::Start()
 {
+    m_startTime = std::chrono::steady_clock::now();
+
     OnConnectionStateChanged(LineType::Left, ConnectionState::Idle);
     OnConnectionStateChanged(LineType::Right, ConnectionState::Idle);
 
-    auto leftFlow = CreateFlowDir(m_config.Left().flowPath.c_str());
-    auto rightFlow = CreateFlowDir(m_config.Right().flowPath.c_str());
+    auto leftFlow = EnsureDirectory(m_config.Left().flowPath.c_str());
+    auto rightFlow = EnsureDirectory(m_config.Right().flowPath.c_str());
+    EnsureDirectory("reports");
 
     m_leftApi =
         CThostFtdcMdApi::CreateFtdcMdApi(leftFlow.c_str());
@@ -131,8 +134,24 @@ void Application::Stop()
     OnConnectionStateChanged(LineType::Left, ConnectionState::Stopped);
     OnConnectionStateChanged(LineType::Right, ConnectionState::Stopped);
 
+    auto now =
+        std::chrono::steady_clock::now();
+
+    auto seconds =
+        std::chrono::duration_cast<
+        std::chrono::seconds>(
+            now - m_startTime)
+        .count();
+
     auto report =
         m_statistics.BuildReport();
+
+
+    report.runtimeSeconds =
+        seconds;
+
+    report.tradingDay =
+        GetTradingDay();
 
 
     DebugPrint(

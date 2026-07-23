@@ -1,6 +1,6 @@
 #include "Utils.h"
 
-std::string CreateFlowDir(const char* name)
+std::string EnsureDirectory(const char* name)
 {
     std::string path = "";
     char cwd[512];
@@ -22,7 +22,7 @@ std::string CreateFlowDir(const char* name)
 
     if (_mkdir(path.c_str()) == 0)
     {
-        OutputDebugStringA("Create Flow Folder\n");
+        OutputDebugStringA("Create Folder\n");
     }
 
     return path;
@@ -126,4 +126,26 @@ const char* ToString(ConnectionState state)
     default:
         return "Unknown";
     }
+}
+
+std::string GetTradingDay()
+{
+    time_t t = time(nullptr);
+
+    tm tmNow;
+
+    localtime_s(
+        &tmNow,
+        &t);
+
+    char buf[32];
+
+    sprintf_s(
+        buf,
+        "%04d%02d%02d",
+        tmNow.tm_year + 1900,
+        tmNow.tm_mon + 1,
+        tmNow.tm_mday);
+
+    return buf;
 }

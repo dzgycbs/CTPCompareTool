@@ -59,4 +59,6 @@ private:
 
     ConnectionState m_rightState =  ConnectionState::Idle;
 
+    std::chrono::steady_clock::time_point m_startTime;
+
 };
