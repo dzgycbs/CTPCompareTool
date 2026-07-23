@@ -13,6 +13,8 @@ void TickMatcher::SetListener(ITickMatchListener* listener)
 
 void TickMatcher::Push(const Tick& tick)
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     if (tick.line == LineType::Left)
     {
         MatchLeft(tick);
@@ -62,7 +64,6 @@ void TickMatcher::MatchRight(const Tick& tick)
     {
         if (m_listener != nullptr)
         {
-            //OutputDebugStringA("MATCH FOUND (RIGHT incoming)\n");
             m_listener->OnTickMatched(
                 it->second,
                 tick);

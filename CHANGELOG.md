@@ -1,5 +1,20 @@
 # Changelog
 
+v0.9.5 Investigation
+
+发现：
+独立运行约100分钟随机发生0xC0000005
+
+分析：
+怀疑 TickMatcher 被左右 MdApi 回调线程同时访问。
+
+处理：
+TickMatcher Push() 增加互斥锁。
+
+状态：
+Debug 环境连续运行稳定。
+Release/独立运行待继续验证。
+
 2026-07-16
 
 First real multi-thread race

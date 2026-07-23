@@ -99,11 +99,9 @@ bool Application::Start()
 
     m_rightApi->RegisterSpi(&m_rightSpi);
 
-    m_leftApi->RegisterFront(
-        const_cast<char*>(m_leftFront.c_str()));
+    m_leftApi->RegisterFront(const_cast<char*>(m_leftFront.c_str()));
 
-    m_rightApi->RegisterFront(
-        const_cast<char*>(m_rightFront.c_str()));
+    m_rightApi->RegisterFront(const_cast<char*>(m_rightFront.c_str()));
 
     m_leftSpi.SetLoginInfo(m_config.Left().brokerID, m_config.Left().userID, m_config.Left().password);
 

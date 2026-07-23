@@ -194,6 +194,9 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
   <ItemGroup>
     <Text Include="log\README.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\app.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

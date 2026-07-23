@@ -43,6 +43,7 @@ private:
     void MatchRight(const Tick& tick);
 
 private:
+    mutable std::mutex m_mutex;
 
     std::unordered_map<std::string, Tick> m_leftTicks;
 

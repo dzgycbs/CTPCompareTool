@@ -156,4 +156,7 @@
       <Filter>log</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\app.ico" />
+  </ItemGroup>
 </Project>
