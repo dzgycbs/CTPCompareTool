@@ -2,6 +2,7 @@
 #include "StatisticsSnapshot.h"
 #include "Statistics.h"
 #include <windowsx.h>
+#include "../Resource.h"
 
 // ------------------------------------------------------------------------
 // 1. 配色方案（统一管理，改起来方便）
@@ -81,6 +82,13 @@ bool MainWindow::Create(HINSTANCE hInstance)
         nullptr,
         m_hInstance,
         this);
+
+    // 加载并设置图标
+    HICON hIconLarge = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+    HICON hIconSmall = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+
+    SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIconLarge);
+    SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)hIconSmall);
 
     return (m_hWnd != nullptr);
 }

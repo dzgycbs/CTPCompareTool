@@ -17,6 +17,10 @@ enum class ConnectionState
 
     Running,            // 正常运行
 
+    Reconnecting,       // 重连
+     
+    Error,              // 错误
+
     Disconnected,       // 掉线
 
     Stopped             // Stop()

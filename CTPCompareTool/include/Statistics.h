@@ -27,7 +27,6 @@ public:
 
     void UpdatePercentile();
 
-    //StatisticsReport BuildReport() const;
 
 public:
 

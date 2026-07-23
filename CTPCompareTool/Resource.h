@@ -2,6 +2,7 @@
 // Microsoft Visual C++ 生成的包含文件。
 // 供 CTPCompare.rc 使用
 //
+#define IDI_ICON1                       129
 #define IDC_MYICON                      2
 #define IDD_CTPCOMPARETOOL_DIALOG       102
 #define IDS_APP_TITLE                   103
@@ -12,7 +13,6 @@
 #define IDI_SMALL                       108
 #define IDC_CTPCOMPARETOOL              109
 #define IDR_MAINFRAME                   128
-#define IDI_ICON1                       129
 #define IDC_STATIC                      -1
 
 // Next default values for new objects

@@ -43,7 +43,7 @@ bool Application::Initialize(HINSTANCE hInstance)
     {
         return false;
     }
-
+    
     m_mainWindow.SetStatistics(&m_statistics);
    
     return true;

@@ -13,8 +13,6 @@ void TickMatcher::SetListener(ITickMatchListener* listener)
 
 void TickMatcher::Push(const Tick& tick)
 {
-    std::lock_guard<std::mutex> lock(m_mutex);
-
     if (tick.line == LineType::Left)
     {
         MatchLeft(tick);
@@ -31,48 +29,83 @@ void TickMatcher::Clear()
     m_rightTicks.clear();
 }
 
+
 void TickMatcher::MatchLeft(const Tick& tick)
 {
-    std::string key = TickKeyBuilder::Build(tick);
+    Tick rightTick;
+    bool matched = false;
 
-    auto it = m_rightTicks.find(key);
+    std::string key =
+        TickKeyBuilder::Build(tick);
 
-    if (it != m_rightTicks.end())
     {
-        if (m_listener != nullptr)
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+
+        auto it =
+            m_rightTicks.find(key);
+
+
+        if (it != m_rightTicks.end())
         {
-            m_listener->OnTickMatched(
-                tick,
-                it->second);
+            rightTick = it->second;
+
+            m_rightTicks.erase(it);
+
+            matched = true;
         }
-
-        m_rightTicks.erase(it);
-
-        return;
+        else
+        {
+            m_leftTicks.emplace(key, tick);
+        }
     }
 
-    m_leftTicks.emplace(key, tick);
+
+    if (matched && m_listener)
+    {
+        m_listener->OnTickMatched(
+            tick,
+            rightTick);
+    }
 }
 
 void TickMatcher::MatchRight(const Tick& tick)
 {
-    std::string key = TickKeyBuilder::Build(tick);
+    Tick leftTick;
+    bool matched = false;
 
-    auto it = m_leftTicks.find(key);
 
-    if (it != m_leftTicks.end())
+    std::string key =
+        TickKeyBuilder::Build(tick);
+
+
     {
-        if (m_listener != nullptr)
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+
+        auto it =
+            m_leftTicks.find(key);
+
+
+        if (it != m_leftTicks.end())
         {
-            m_listener->OnTickMatched(
-                it->second,
-                tick);
+            leftTick = it->second;
+
+            m_leftTicks.erase(it);
+
+            matched = true;
         }
-
-        m_leftTicks.erase(it);
-
-        return;
+        else
+        {
+            m_rightTicks.emplace(key, tick);
+        }
     }
 
-    m_rightTicks.emplace(key, tick);
+
+    if (matched && m_listener)
+    {
+        m_listener->OnTickMatched(
+            leftTick,
+            tick);
+    }
 }

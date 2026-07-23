@@ -157,6 +157,7 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
     <ClInclude Include="include\MdSpiEx.h" />
     <ClInclude Include="include\RandomEngine.h" />
     <ClInclude Include="include\Statistics.h" />
+    <ClInclude Include="include\StatisticsReport.h" />
     <ClInclude Include="include\StatisticsSnapshot.h" />
     <ClInclude Include="include\TickContext.h" />
     <ClInclude Include="include\TickConverter.h" />
@@ -178,6 +179,7 @@ xcopy /Y /D "$(ProjectDir)config\*.*" "$(OutDir)config\"</Command>
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\MdSpiEx.cpp" />
     <ClCompile Include="src\Statistics.cpp" />
+    <ClCompile Include="src\StatisticsReport.cpp" />
     <ClCompile Include="src\TickConverter.cpp" />
     <ClCompile Include="src\TickKeyBuilder.cpp" />
     <ClCompile Include="src\TickMatcher.cpp" />
