@@ -3,6 +3,7 @@
 #include "Common.h"
 #include "TickMatcher.h"
 #include "StatisticsSnapshot.h"
+#include "StatisticsReport.h"
 
 //=============================================================================
 // Statistics
@@ -27,6 +28,7 @@ public:
 
     void UpdatePercentile();
 
+    StatisticsReport BuildReport() const;
 
 public:
 

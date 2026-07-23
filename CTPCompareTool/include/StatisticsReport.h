@@ -1,29 +1,32 @@
 #pragma once
-#include "Common.h"
+
+#include <string>
+#include <cstdint>
+
+#include "StatisticsSnapshot.h"
+
 
 struct StatisticsReport
 {
-    uint64_t samples;
+    //---------------------------------
+    // 基础信息
+    //---------------------------------
 
-    double avg;
+    std::string instrument = "";
 
-    double p50;
+    std::string tradingDay = "";
 
-    double p95;
 
-    double p99;
+    //---------------------------------
+    // 运行信息
+    //---------------------------------
 
-    double max;
+    uint64_t runtimeSeconds = 0;
 
-    double leftRate;
 
-    double rightRate;
+    //---------------------------------
+    // 统计结果
+    //---------------------------------
 
-    double drawRate;
-
-    double advantageAvg;
-
-    double advantageMax;
+    StatisticsSnapshot snapshot;
 };
-
-//StatisticsReport BuildReport() const;

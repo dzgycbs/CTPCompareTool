@@ -73,10 +73,22 @@ void Statistics::UpdatePercentile()
            getValue(0.99));
 }
 
-//StatisticsReport Statistics::BuildReport() const
-//{
-//    return StatisticsReport();
-//}
+StatisticsReport Statistics::BuildReport() const
+{
+    StatisticsReport report;
+
+    {
+        std::lock_guard<std::mutex> lock(
+            m_snapshotMutex);
+
+
+        report.snapshot = m_snapshot;
+    }
+
+
+    return report;
+}
+
 
 
 void Statistics::OnTickMatched(

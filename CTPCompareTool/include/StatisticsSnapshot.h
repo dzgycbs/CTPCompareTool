@@ -11,26 +11,26 @@
 
 struct StatisticsSnapshot
 {
-    uint64_t matchedCount;
+    uint64_t matchedCount = 0;
 
-    uint64_t leftWinCount;
-    uint64_t rightWinCount;
-    uint64_t drawCount;
-
-
-    double leftWinRate;
-    double rightWinRate;
-    double drawRate;
+    uint64_t leftWinCount = 0;
+    uint64_t rightWinCount = 0;
+    uint64_t drawCount = 0;
 
 
-    uint64_t minLatencyUs;
-    uint64_t maxLatencyUs;
+    double leftWinRate = 0;
+    double rightWinRate = 0;
+    double drawRate = 0;
 
-    double avgLatencyUs;
 
-    double p50LatencyUs;
-    double p95LatencyUs;
-    double p99LatencyUs;
+    uint64_t minLatencyUs = 0;
+    uint64_t maxLatencyUs = 0;
+
+    double avgLatencyUs = 0;
+
+    double p50LatencyUs = 0;
+    double p95LatencyUs = 0;
+    double p99LatencyUs = 0;
 
     //================================
     // Advantage Analysis

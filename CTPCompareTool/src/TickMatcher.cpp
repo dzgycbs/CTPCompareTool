@@ -25,6 +25,7 @@ void TickMatcher::Push(const Tick& tick)
 
 void TickMatcher::Clear()
 {
+    std::lock_guard<std::mutex> lock(m_mutex);
     m_leftTicks.clear();
     m_rightTicks.clear();
 }

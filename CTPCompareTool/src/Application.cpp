@@ -1,5 +1,6 @@
 ﻿#include "Application.h"
 #include "Utils.h"
+#include "ReportWriter.h"
 
 
 Application::Application():
@@ -129,6 +130,18 @@ void Application::Stop()
 {
     OnConnectionStateChanged(LineType::Left, ConnectionState::Stopped);
     OnConnectionStateChanged(LineType::Right, ConnectionState::Stopped);
+
+    auto report =
+        m_statistics.BuildReport();
+
+
+    DebugPrint(
+        "Report Samples=" +
+        std::to_string(
+            report.snapshot.matchedCount)
+        +
+        "\n");
+
 }
 
 void Application::OnConnectionStateChanged(
@@ -164,4 +177,16 @@ void Application::Shutdown()
         m_rightApi->Release();
         m_rightApi = nullptr;
     }
+
+    auto report =
+        m_statistics.BuildReport();
+
+
+    report.instrument =
+        m_config.Instruments()[0];
+
+
+    ReportWriter::SaveJson(
+        report,
+        "./reports/report.json");
 }

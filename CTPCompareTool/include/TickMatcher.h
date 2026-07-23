@@ -50,4 +50,5 @@ private:
     std::unordered_map<std::string, Tick> m_rightTicks;
 
     ITickMatchListener* m_listener = nullptr;
+
 };

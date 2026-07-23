@@ -69,6 +69,9 @@
     <ClCompile Include="src\StatisticsReport.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ReportWriter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -136,6 +139,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\StatisticsReport.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ReportWriter.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
