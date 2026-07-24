@@ -73,7 +73,8 @@ int Application::Run(int nCmdShow)
 
 bool Application::Start()
 {
-    m_startTime = std::chrono::steady_clock::now();
+    m_runStartTime = std::chrono::steady_clock::now();
+    m_reportStartTime = CurrentDateTime();
 
     OnConnectionStateChanged(LineType::Left, ConnectionState::Idle);
     OnConnectionStateChanged(LineType::Right, ConnectionState::Idle);
@@ -132,25 +133,31 @@ void Application::Stop()
     OnConnectionStateChanged(LineType::Left, ConnectionState::Stopped);
     OnConnectionStateChanged(LineType::Right, ConnectionState::Stopped);
 
-    auto now =
-        std::chrono::steady_clock::now();
+    auto now = std::chrono::steady_clock::now();
 
     auto seconds =
         std::chrono::duration_cast<
         std::chrono::seconds>(
-            now - m_startTime)
+            now - m_runStartTime)
         .count();
 
-    auto report =
-        m_statistics.BuildReport();
+    auto report = m_statistics.BuildReport();
 
+    report.startTime = m_reportStartTime;
 
-    report.runtimeSeconds =
-        seconds;
+    report.endTime = CurrentDateTime();
 
-    report.tradingDay =
-        GetTradingDay();
+    report.runtimeSeconds = seconds;
 
+    report.tradingDay =  GetTradingDay();
+
+    report.instrument =  m_config.Instruments()[0];
+
+    report.version = WStringToString(APP_VERSION_STRING);
+
+    ReportWriter::SaveJson(
+        report,
+        "./reports/report.json");
 
     DebugPrint(
         "Report Samples=" +
@@ -195,15 +202,4 @@ void Application::Shutdown()
         m_rightApi = nullptr;
     }
 
-    auto report =
-        m_statistics.BuildReport();
-
-
-    report.instrument =
-        m_config.Instruments()[0];
-
-
-    ReportWriter::SaveJson(
-        report,
-        "./reports/report.json");
 }

@@ -14,6 +14,15 @@ bool ReportWriter::SaveJson(
 {
     json j;
 
+    j["version"] =
+        report.version;
+
+    j["startTime"] =
+        report.startTime;
+
+    j["endTime"] =
+        report.endTime;
+
 
     //------------------------------------------------
     // »ù´¡ÐÅÏ¢

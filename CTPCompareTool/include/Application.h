@@ -59,6 +59,9 @@ private:
 
     ConnectionState m_rightState =  ConnectionState::Idle;
 
-    std::chrono::steady_clock::time_point m_startTime;
+    std::chrono::steady_clock::time_point m_runStartTime;
+
+    // 用于报告展示
+    std::string m_reportStartTime;
 
 };

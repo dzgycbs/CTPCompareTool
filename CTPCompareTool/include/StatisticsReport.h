@@ -9,6 +9,16 @@
 struct StatisticsReport
 {
     //---------------------------------
+   // Report Metadata
+   //---------------------------------
+
+    std::string version = "";
+
+    std::string startTime = "";
+
+    std::string endTime = "";
+
+    //---------------------------------
     // »ù´¡ÐÅÏ¢
     //---------------------------------
 

@@ -149,3 +149,58 @@ std::string GetTradingDay()
 
     return buf;
 }
+
+std::string CurrentDateTime()
+{
+    SYSTEMTIME st;
+
+    GetLocalTime(&st);
+
+    char buf[64];
+
+    sprintf_s(
+        buf,
+        "%04d-%02d-%02d %02d:%02d:%02d",
+        st.wYear,
+        st.wMonth,
+        st.wDay,
+        st.wHour,
+        st.wMinute,
+        st.wSecond);
+
+    return buf;
+}
+
+std::string WStringToString(const std::wstring& wstr)
+{
+    if (wstr.empty()) return std::string();
+
+    // 1. 先计算目标 UTF-8 字符串的长度（包含 '\0'）
+    int len = WideCharToMultiByte(
+        CP_UTF8,               // 目标编码
+        0,                     // 标志（默认 0）
+        wstr.c_str(),          // 源宽字符串
+        (int)wstr.size(),      // 源长度（字符数）
+        nullptr,               // 输出缓冲区（先传空，计算长度）
+        0,                     // 缓冲区大小（0 表示只计算长度）
+        nullptr,               // 默认字符（不用）
+        nullptr                // 是否使用了默认字符（不用）
+    );
+
+    if (len == 0) return std::string();  // 转换失败
+
+    // 2. 分配缓冲区并转换
+    std::string result(len, '\0');
+    WideCharToMultiByte(
+        CP_UTF8,
+        0,
+        wstr.c_str(),
+        (int)wstr.size(),
+        &result[0],
+        len,
+        nullptr,
+        nullptr
+    );
+
+    return result;
+}

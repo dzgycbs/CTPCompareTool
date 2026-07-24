@@ -23,4 +23,8 @@ const char* ToString(ConnectionState state);
 
 std::string GetTradingDay();
 
+std::string CurrentDateTime();
+
+std::string WStringToString(const std::wstring& wstr);
+
 
