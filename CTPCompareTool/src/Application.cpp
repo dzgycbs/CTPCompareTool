@@ -82,11 +82,9 @@ bool Application::Start()
     auto rightFlow = EnsureDirectory(m_config.Right().flowPath.c_str());
     EnsureDirectory("reports");
 
-    m_leftApi =
-        CThostFtdcMdApi::CreateFtdcMdApi(leftFlow.c_str());
+    m_leftApi = CThostFtdcMdApi::CreateFtdcMdApi(leftFlow.c_str());
 
-    m_rightApi =
-        CThostFtdcMdApi::CreateFtdcMdApi(rightFlow.c_str());
+    m_rightApi = CThostFtdcMdApi::CreateFtdcMdApi(rightFlow.c_str());
 
     if (!m_leftApi || !m_rightApi)
     {
